@@ -4,35 +4,33 @@ import morgan from 'morgan';
 const app = express();
 const PORT = 8080;
 
-/* const logger = (req, res, next) => {
-	console.log(`${req.method} ${req.url}`);
-	next();
-};
-
-// const privateMiddleware = (req, res, next) => {
-// 	const { url } = req;
-// 	if (url === '/protected') {
-// 		return res.send('<h1>Not allowed</h1>');
-// 	}
-// 	next();
-// };
-
-app.use(logger);
-// app.use(privateMiddleware); */
-
 app.use(morgan('dev'));
 
-app.get('/', (req, res) => {
-	// return res.end();
-	return res.send('Home');
-});
+/* global router */
+const globalRouter = express.Router();
+const handleHome = (req, res) => res.send('Home');
 
-app.get('/login', (req, res) => {
-	return res.send('Login');
-});
+globalRouter.get('/', handleHome);
 
+/* users router */
+const usersRouter = express.Router();
+const handleEditUser = (req, res) => res.send('Edit User');
+
+usersRouter.get('/edit', handleEditUser);
+
+/* video router */
+const videosRouter = express.Router();
+const handleWatchVideo = (req, res) => res.send('Watch Video');
+
+videosRouter.get('/watch', handleWatchVideo);
+
+/* use routers */
+app.use('/', globalRouter);
+app.use('/users', usersRouter);
+app.use('/videos', videosRouter);
+
+/* start server console */
 const handleListening = () => console.log('server listening on port 8080');
-
 app.listen(PORT, handleListening);
 
 // console.log(app);
