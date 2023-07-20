@@ -1,8 +1,10 @@
 import express from 'express';
-import { handleEditUser } from '../controllers/users';
+import { handleDelete, handleEdit } from '../controllers/users';
 
 const usersRouter = express.Router();
 
-usersRouter.get('/edit', handleEditUser);
+usersRouter.get('/edit', handleEdit);
+
+usersRouter.get('/delete', handleDelete);
 
 export default usersRouter;
