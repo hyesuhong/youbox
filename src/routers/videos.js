@@ -4,19 +4,24 @@ import {
 	handleDelete,
 	handleDeleteComments,
 	handleEdit,
+	handleUpload,
 	handleWatch,
 } from '../controllers/videos';
 
 const videosRouter = express.Router();
 
-videosRouter.get('/watch', handleWatch);
+// videosRouter.get('/comments', handleComments);
 
-videosRouter.get('/edit', handleEdit);
+// videosRouter.get('/comments/delete', handleDeleteComments);
 
-videosRouter.get('/delete', handleDelete);
+const idParams = ':id(\\d+)';
 
-videosRouter.get('/comments', handleComments);
+videosRouter.get(`/${idParams}`, handleWatch);
 
-videosRouter.get('/comments/delete', handleDeleteComments);
+videosRouter.get(`/${idParams}/edit`, handleEdit);
+
+videosRouter.get(`/${idParams}/delete`, handleDelete);
+
+videosRouter.get('/upload', handleUpload);
 
 export default videosRouter;

@@ -1,10 +1,21 @@
 import express from 'express';
-import { handleDelete, handleEdit } from '../controllers/users';
+import {
+	handleDelete,
+	handleEdit,
+	handleLogout,
+	handleProfile,
+} from '../controllers/users';
 
 const usersRouter = express.Router();
+
+usersRouter.get('/logout', handleLogout);
 
 usersRouter.get('/edit', handleEdit);
 
 usersRouter.get('/delete', handleDelete);
+
+const idParams = ':id(\\d+)';
+
+usersRouter.get(`/${idParams}`, handleProfile);
 
 export default usersRouter;

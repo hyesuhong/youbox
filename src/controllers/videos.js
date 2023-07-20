@@ -1,8 +1,14 @@
 export const handleHome = (req, res) => res.send('Home');
 
-export const handleWatch = (req, res) => res.send('Watch Video');
+export const handleUpload = (req, res) => res.send('Upload new video');
 
-export const handleEdit = (req, res) => res.send('Edit Video');
+export const handleWatch = (req, res) =>
+	res.send(`Watch Video(id: ${req.params.id})`);
+
+export const handleEdit = (req, res) => {
+	// console.log(req.params);
+	return res.send(`Edit Video(id: ${req.params.id})`);
+};
 
 export const handleDelete = (req, res) => res.send('Delete Video');
 
