@@ -1,7 +1,7 @@
 {
-	"name": "wetube",
+	"name": "youbox",
 	"version": "1.0.0",
-	"description": "",
+	"description": "Youtube clone project to practise nodeJS",
 	"main": "src/index.js",
 	"scripts": {
 		"dev:server": "nodemon --exec babel-node src/server/index.js"
