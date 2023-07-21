@@ -1,4 +1,10 @@
 extends layout
+include ../components/videoThumb
 
 block content
-	h1 Welcome
+	h2 Welcome
+
+	each data in videos
+		+video(data)
+	else
+		p There is no video.

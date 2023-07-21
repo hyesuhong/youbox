@@ -1,0 +1,8 @@
+mixin video(data)
+	div
+		h4=data.title
+		ul
+			li #{data.rating} / 5
+			li #{data.comments} comments
+			li Posted #{data.createdAt}
+			li #{data.views} views
