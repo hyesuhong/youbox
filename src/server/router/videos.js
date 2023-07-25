@@ -6,7 +6,7 @@ import {
 	handleEdit,
 	handleUpload,
 	handleWatch,
-} from '../controllers/videos';
+} from '../controller/videos';
 
 const videosRouter = express.Router();
 

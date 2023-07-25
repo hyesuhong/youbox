@@ -1,27 +1,22 @@
-const fakeUser = {
-	username: 'ssu',
-	loggedIn: false,
-};
+import { fakeUser } from '../model/users';
+import { videos } from '../model/videos';
 
 export const handleHome = (req, res) => {
-	const videos = new Array(3).fill(0).map((el, index) => {
-		return {
-			id: index,
-			title: `Title ${index}`,
-			rating: Math.floor(Math.random() * 5),
-			comments: Math.floor(Math.random() * 100),
-			createdAt: `${Math.floor(Math.random() * 59)} minutes ago`,
-			views: Math.floor(Math.random() * 100),
-		};
-	});
-	// const videos = []
 	return res.render('home', { pageTitle: 'Home', fakeUser, videos });
 };
 
 export const handleUpload = (req, res) => res.send('Upload new video');
 
-export const handleWatch = (req, res) =>
-	res.render('watch', { pageTitle: 'Watch', fakeUser });
+export const handleWatch = (req, res) => {
+	const { id } = req.params;
+	const video = videos.find((el) => el.id === Number(id));
+
+	if (!video) {
+		return res.send(404);
+	}
+
+	return res.render('watch', { pageTitle: 'Watch', fakeUser, video });
+};
 // res.send(`Watch Video(id: ${req.params.id})`);
 
 export const handleEdit = (req, res) => {

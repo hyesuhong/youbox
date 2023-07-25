@@ -1,6 +1,6 @@
 import express from 'express';
-import { handleJoin, handleLogin } from '../controllers/users';
-import { handleHome, handleSearch } from '../controllers/videos';
+import { handleJoin, handleLogin } from '../controller/users';
+import { handleHome, handleSearch } from '../controller/videos';
 
 const globalRouter = express.Router();
 

@@ -4,7 +4,7 @@ import {
 	handleEdit,
 	handleLogout,
 	handleProfile,
-} from '../controllers/users';
+} from '../controller/users';
 
 const usersRouter = express.Router();
 

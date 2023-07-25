@@ -1,8 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
-import global from './routers/global';
-import users from './routers/users';
-import videos from './routers/videos';
+import global from './router/global';
+import users from './router/users';
+import videos from './router/videos';
 
 const app = express();
 const PORT = 8080;
