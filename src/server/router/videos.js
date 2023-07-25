@@ -1,25 +1,23 @@
 import express from 'express';
 import {
-	handleComments,
 	handleDelete,
-	handleDeleteComments,
-	handleEdit,
+	getEdit,
 	handleUpload,
 	handleWatch,
+	postEdit,
 } from '../controller/videos';
 
 const videosRouter = express.Router();
 
-// videosRouter.get('/comments', handleComments);
-
-// videosRouter.get('/comments/delete', handleDeleteComments);
-
 const idParams = ':id(\\d+)';
 
+/* GET: watch one video */
 videosRouter.get(`/${idParams}`, handleWatch);
 
-videosRouter.get(`/${idParams}/edit`, handleEdit);
+/* GET & POST: edit one video */
+videosRouter.route(`/${idParams}/edit`).get(getEdit).post(postEdit);
 
+/* GET: delete one video */
 videosRouter.get(`/${idParams}/delete`, handleDelete);
 
 videosRouter.get('/upload', handleUpload);

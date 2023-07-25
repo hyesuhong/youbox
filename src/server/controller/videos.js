@@ -12,22 +12,45 @@ export const handleWatch = (req, res) => {
 	const video = videos.find((el) => el.id === Number(id));
 
 	if (!video) {
-		return res.send(404);
+		return res.sendStatus(404);
 	}
 
-	return res.render('watch', { pageTitle: 'Watch', fakeUser, video });
+	return res.render('video/watch', {
+		pageTitle: `Watching ${video.title}`,
+		fakeUser,
+		video,
+	});
 };
-// res.send(`Watch Video(id: ${req.params.id})`);
 
-export const handleEdit = (req, res) => {
-	// console.log(req.params);
-	return res.send(`Edit Video(id: ${req.params.id})`);
+export const getEdit = (req, res) => {
+	const { id } = req.params;
+	const video = videos.find((el) => el.id === Number(id));
+
+	if (!video) {
+		return res.sendStatus(404);
+	}
+
+	return res.render('video/edit', {
+		pageTitle: `Edit ${video.title}`,
+		fakeUser,
+		video,
+	});
+};
+
+export const postEdit = (req, res) => {
+	const { id } = req.params;
+	const { title } = req.body;
+	const videoIndex = videos.findIndex((el) => el.id === Number(id));
+
+	if (videoIndex < 0) {
+		return res.sendStatus(404);
+	}
+
+	videos[videoIndex].title = title;
+
+	return res.redirect(`/videos/${id}`);
 };
 
 export const handleDelete = (req, res) => res.send('Delete Video');
 
 export const handleSearch = (req, res) => res.send('Search');
-
-export const handleComments = (req, res) => res.send('Get comments');
-
-export const handleDeleteComments = (req, res) => res.send('Delete comment');

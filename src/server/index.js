@@ -13,6 +13,9 @@ app.use(morgan('dev'));
 app.set('view engine', 'pug');
 app.set('views', `${process.cwd()}/src/client/views`);
 
+/* express understand form values */
+app.use(express.urlencoded({ extended: true }));
+
 /* use routers */
 app.use('/', global);
 app.use('/users', users);
