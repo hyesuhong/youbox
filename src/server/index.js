@@ -1,5 +1,6 @@
 import express from 'express';
 import morgan from 'morgan';
+import './db/database';
 import global from './router/global';
 import users from './router/users';
 import videos from './router/videos';
@@ -22,5 +23,6 @@ app.use('/users', users);
 app.use('/videos', videos);
 
 /* start server console */
-const handleListening = () => console.log('server listening on port 8080');
+const handleListening = () =>
+	console.log(`✅ Server listening on http://localhost:${PORT}/`);
 app.listen(PORT, handleListening);
