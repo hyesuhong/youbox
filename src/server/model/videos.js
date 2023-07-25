@@ -1,26 +1,16 @@
-export const videos = [
-	{
-		title: 'First Video',
-		rating: 5,
-		comments: 2,
-		createdAt: '2 minutes ago',
-		views: 59,
-		id: 1,
+import mongoose from 'mongoose';
+
+const videoSchema = new mongoose.Schema({
+	title: String,
+	description: String,
+	createdAt: Date,
+	hashtags: [{ type: String }],
+	meta: {
+		views: Number,
+		rating: Number,
 	},
-	{
-		title: 'Second Video',
-		rating: 5,
-		comments: 2,
-		createdAt: '2 minutes ago',
-		views: 59,
-		id: 2,
-	},
-	{
-		title: 'Third Video',
-		rating: 5,
-		comments: 2,
-		createdAt: '2 minutes ago',
-		views: 59,
-		id: 3,
-	},
-];
+});
+
+const videoModel = mongoose.model('Video', videoSchema);
+
+export default videoModel;
