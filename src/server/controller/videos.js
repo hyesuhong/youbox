@@ -5,8 +5,6 @@ export const handleHome = (req, res) => {
 	return res.render('home', { pageTitle: 'Home', fakeUser, videos });
 };
 
-export const handleUpload = (req, res) => res.send('Upload new video');
-
 export const handleWatch = (req, res) => {
 	const { id } = req.params;
 	const video = videos.find((el) => el.id === Number(id));
@@ -51,6 +49,25 @@ export const postEdit = (req, res) => {
 	return res.redirect(`/videos/${id}`);
 };
 
-export const handleDelete = (req, res) => res.send('Delete Video');
+export const getUpload = (req, res) => {
+	return res.render('video/upload', {
+		pageTitle: 'Upload new video',
+		fakeUser,
+	});
+};
 
-export const handleSearch = (req, res) => res.send('Search');
+export const postUpload = (req, res) => {
+	const { title } = req.body;
+
+	const video = {
+		id: videos.length + 1,
+		title: title,
+		rating: 0,
+		comments: 0,
+		createdAt: 'just now',
+		views: 0,
+	};
+
+	videos.push(video);
+	return res.redirect('/');
+};

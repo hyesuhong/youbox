@@ -1,10 +1,10 @@
 import express from 'express';
 import {
-	handleDelete,
 	getEdit,
-	handleUpload,
 	handleWatch,
 	postEdit,
+	getUpload,
+	postUpload,
 } from '../controller/videos';
 
 const videosRouter = express.Router();
@@ -15,11 +15,15 @@ const idParams = ':id(\\d+)';
 videosRouter.get(`/${idParams}`, handleWatch);
 
 /* GET & POST: edit one video */
-videosRouter.route(`/${idParams}/edit`).get(getEdit).post(postEdit);
+videosRouter
+	.route(`/${idParams}/edit`) //
+	.get(getEdit) //
+	.post(postEdit);
 
-/* GET: delete one video */
-videosRouter.get(`/${idParams}/delete`, handleDelete);
-
-videosRouter.get('/upload', handleUpload);
+/* GET & POST: upload a video */
+videosRouter
+	.route('/upload') //
+	.get(getUpload) //
+	.post(postUpload);
 
 export default videosRouter;
