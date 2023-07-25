@@ -1,10 +1,10 @@
 import express from 'express';
 import { handleJoin, handleLogin } from '../controller/users';
-import { handleHome } from '../controller/videos';
+import { getHome } from '../controller/videos';
 
 const globalRouter = express.Router();
 
-globalRouter.get('/', handleHome);
+globalRouter.get('/', getHome);
 
 globalRouter.get('/join', handleJoin);
 

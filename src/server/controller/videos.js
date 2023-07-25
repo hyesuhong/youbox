@@ -1,8 +1,15 @@
 import { fakeUser } from '../model/users';
-import { videos } from '../model/videos';
+import videoModel from '../model/videos';
 
-export const handleHome = (req, res) => {
-	return res.render('home', { pageTitle: 'Home', fakeUser, videos });
+export const getHome = async (req, res) => {
+	try {
+		const videos = await videoModel.find({});
+		console.log(videos);
+		return res.render('home', { pageTitle: 'Home', fakeUser, videos });
+	} catch (error) {
+		console.log(error);
+		return res.sendStatus(404);
+	}
 };
 
 export const handleWatch = (req, res) => {
