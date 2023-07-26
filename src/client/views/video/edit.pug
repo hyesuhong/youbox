@@ -3,5 +3,8 @@ extends ../layout
 block content
 	h4 change Title of video
 	form(method="POST")
-		input(name="title" placeholder="Video Title" value=video.title required)
+		input(name="title" required placeholder="Title" value=video.title maxlength=80)
+		textarea(name="description" required placeholder="Description" minlength=20)
+			| #{video.description}
+		input(name="hashtags" required placeholder="Hashtags, separated by comma" value=`${video.hashtags.join(',')}`)
 		input(type="submit" value="Save")

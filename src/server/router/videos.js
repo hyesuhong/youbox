@@ -1,7 +1,7 @@
 import express from 'express';
 import {
 	getEdit,
-	handleWatch,
+	getWatch,
 	postEdit,
 	getUpload,
 	postUpload,
@@ -15,7 +15,7 @@ const videosRouter = express.Router();
 const idParams = ':id([0-9a-f]{24})';
 
 /* GET: watch one video */
-videosRouter.get(`/${idParams}`, handleWatch);
+videosRouter.get(`/${idParams}`, getWatch);
 
 /* GET & POST: edit one video */
 videosRouter

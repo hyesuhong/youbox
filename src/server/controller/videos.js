@@ -12,48 +12,85 @@ export const getHome = async (req, res) => {
 	}
 };
 
-export const handleWatch = (req, res) => {
+export const getWatch = async (req, res) => {
 	const { id } = req.params;
-	const video = videos.find((el) => el.id === Number(id));
 
-	if (!video) {
-		return res.sendStatus(404);
+	try {
+		const video = await Video.findById(id);
+
+		if (!video) {
+			throw new Error('cannot found video');
+		}
+
+		return res.render('video/watch', {
+			pageTitle: video.title,
+			fakeUser,
+			video,
+		});
+	} catch (error) {
+		console.log(error.message);
+		return res.render('404', {
+			pageTitle: 'Not Found',
+			errorMessage: error.message,
+			fakeUser,
+		});
 	}
-
-	return res.render('video/watch', {
-		pageTitle: `Watching ${video.title}`,
-		fakeUser,
-		video,
-	});
 };
 
-export const getEdit = (req, res) => {
+export const getEdit = async (req, res) => {
 	const { id } = req.params;
-	const video = videos.find((el) => el.id === Number(id));
 
-	if (!video) {
-		return res.sendStatus(404);
+	try {
+		const video = await Video.findById(id);
+
+		if (!video) {
+			throw new Error('cannot found video');
+		}
+
+		return res.render('video/edit', {
+			pageTitle: `Edit ${video.title}`,
+			fakeUser,
+			video,
+		});
+	} catch (error) {
+		console.log(error.message);
+		return res.render('404', {
+			pageTitle: 'Not Found',
+			errorMessage: error.message,
+			fakeUser,
+		});
 	}
-
-	return res.render('video/edit', {
-		pageTitle: `Edit ${video.title}`,
-		fakeUser,
-		video,
-	});
 };
 
-export const postEdit = (req, res) => {
+export const postEdit = async (req, res) => {
 	const { id } = req.params;
-	const { title } = req.body;
-	const videoIndex = videos.findIndex((el) => el.id === Number(id));
+	const { title, description, hashtags } = req.body;
 
-	if (videoIndex < 0) {
-		return res.sendStatus(404);
+	const isExist = Video.exists({ _id: id });
+
+	if (!isExist) {
+		throw new Error('cannot found video');
 	}
 
-	videos[videoIndex].title = title;
+	try {
+		const video = await Video.findByIdAndUpdate(id, {
+			title,
+			description,
+			hashtags: hashtags
+				.replace(/\s/gi, '')
+				.split(',')
+				.filter((el) => el !== ''),
+		});
 
-	return res.redirect(`/videos/${id}`);
+		return res.redirect(`/videos/${id}`);
+	} catch (error) {
+		console.log(error.message);
+		return res.render('404', {
+			pageTitle: 'Not Found',
+			errorMessage: error.message,
+			fakeUser,
+		});
+	}
 };
 
 export const getUpload = (req, res) => {
