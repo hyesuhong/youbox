@@ -9,7 +9,10 @@ import {
 
 const videosRouter = express.Router();
 
-const idParams = ':id(\\d+)';
+// const idParams = ':id(\\d+)';
+
+/* mongoose's ObjectId = 24 hexadecimal character string  */
+const idParams = ':id([0-9a-f]{24})';
 
 /* GET: watch one video */
 videosRouter.get(`/${idParams}`, handleWatch);

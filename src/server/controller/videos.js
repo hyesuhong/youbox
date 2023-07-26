@@ -1,9 +1,9 @@
 import { fakeUser } from '../model/users';
-import videoModel from '../model/videos';
+import Video from '../model/videos';
 
 export const getHome = async (req, res) => {
 	try {
-		const videos = await videoModel.find({});
+		const videos = await Video.find({});
 		console.log(videos);
 		return res.render('home', { pageTitle: 'Home', fakeUser, videos });
 	} catch (error) {
@@ -63,18 +63,27 @@ export const getUpload = (req, res) => {
 	});
 };
 
-export const postUpload = (req, res) => {
-	const { title } = req.body;
+export const postUpload = async (req, res) => {
+	const { title, description, hashtags } = req.body;
 
-	const video = {
-		id: videos.length + 1,
-		title: title,
-		rating: 0,
-		comments: 0,
-		createdAt: 'just now',
-		views: 0,
-	};
+	const video = new Video({
+		title,
+		description,
+		hashtags: hashtags
+			.replace(/\s/gi, '')
+			.split(',')
+			.filter((el) => el !== ''),
+	});
 
-	videos.push(video);
-	return res.redirect('/');
+	try {
+		await video.save();
+		return res.redirect('/');
+	} catch (err) {
+		console.log(err);
+		return res.render('video/upload', {
+			pageTitle: 'Upload new video',
+			fakeUser,
+			errorMessage: err._message,
+		});
+	}
 };
