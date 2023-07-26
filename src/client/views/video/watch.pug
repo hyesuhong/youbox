@@ -7,3 +7,6 @@ block content
 		
 	h3 #{video.meta.views} #{video.meta.views < 2 ? "view" :"views"}
 	a(href=`${video.id}/edit`) Edit Video &rarr;
+	br
+	a(href=`${video.id}/delete` onClick="return confirm('Are you sure deleting this video?')") Delete Video &rarr;
+	

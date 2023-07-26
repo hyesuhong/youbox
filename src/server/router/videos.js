@@ -5,6 +5,7 @@ import {
 	postEdit,
 	getUpload,
 	postUpload,
+	deleteVideo,
 } from '../controller/videos';
 
 const videosRouter = express.Router();
@@ -22,6 +23,11 @@ videosRouter
 	.route(`/${idParams}/edit`) //
 	.get(getEdit) //
 	.post(postEdit);
+
+/* GET: delete a video */
+videosRouter
+	.route(`/${idParams}/delete`) //
+	.get(deleteVideo);
 
 /* GET & POST: upload a video */
 videosRouter
