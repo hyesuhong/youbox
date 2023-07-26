@@ -3,8 +3,8 @@ import Video from '../model/videos';
 
 export const getHome = async (req, res) => {
 	try {
-		const videos = await Video.find({});
-		console.log(videos);
+		const videos = await Video.find({}).sort({ createdAt: 'desc' });
+
 		return res.render('home', { pageTitle: 'Home', fakeUser, videos });
 	} catch (error) {
 		console.log(error);
@@ -129,4 +129,22 @@ export const deleteVideo = async (req, res) => {
 		console.log(error);
 		return res.sendStatus(500);
 	}
+};
+
+export const getSearch = async (req, res) => {
+	const { keyword } = req.query;
+	if (keyword) {
+		const title = new RegExp(keyword, 'i');
+
+		try {
+			// const videos = await Video.find({ title: title }); // => moongose option
+			const videos = await Video.find({ title: { $regex: title } }); // => mongodb option
+			console.log(videos);
+
+			return res.render('search', { pageTitle: 'Search', fakeUser, videos });
+		} catch (error) {
+			console.log(error);
+		}
+	}
+	return res.render('search', { pageTitle: 'Search', fakeUser });
 };
