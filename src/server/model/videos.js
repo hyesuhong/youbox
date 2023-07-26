@@ -11,6 +11,18 @@ const videoSchema = new mongoose.Schema({
 	},
 });
 
+videoSchema.pre('save', async function () {
+	console.log('We are about to save:', this);
+	this.hashtags = await splitTags(this.hashtags);
+});
+
+const splitTags = (tags) => {
+	return tags[0]
+		.replace(/\s/gi, '')
+		.split(',')
+		.filter((el) => el !== '');
+};
+
 const Video = mongoose.model('Video', videoSchema);
 
 export default Video;
