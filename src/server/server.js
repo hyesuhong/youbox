@@ -2,7 +2,8 @@ import express from 'express';
 import morgan from 'morgan';
 import './db/database';
 import './model/videos';
-import global from './router/global';
+import './model/users';
+import root from './router/root';
 import users from './router/users';
 import videos from './router/videos';
 
@@ -18,7 +19,7 @@ app.set('views', `${process.cwd()}/src/client/views`);
 app.use(express.urlencoded({ extended: true }));
 
 /* use routers */
-app.use('/', global);
+app.use('/', root);
 app.use('/users', users);
 app.use('/videos', videos);
 
