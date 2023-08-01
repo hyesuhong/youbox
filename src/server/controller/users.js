@@ -12,7 +12,7 @@ export const postJoin = async (req, res) => {
 		req.body;
 
 	if (password !== passwordConfirm) {
-		return res.render('Join', {
+		return res.status(400).render('Join', {
 			pageTitle: pageTitle.join,
 			errorMessage: 'Password confirmation does not match.',
 		});
@@ -24,7 +24,7 @@ export const postJoin = async (req, res) => {
 		});
 
 		if (userExists) {
-			return res.render('Join', {
+			return res.status(400).render('Join', {
 				pageTitle: pageTitle.join,
 				errorMessage: 'This username or email is already taken.',
 			});
@@ -41,9 +41,7 @@ export const postJoin = async (req, res) => {
 		return res.redirect('/login');
 	} catch (error) {
 		console.log(error);
-		console.log('---');
-		console.log(error._message);
-		return res.render('Join', {
+		return res.status(400).render('Join', {
 			pageTitle: pageTitle.join,
 			errorMessage: error._message,
 		});

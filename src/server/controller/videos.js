@@ -29,7 +29,7 @@ export const getWatch = async (req, res) => {
 		});
 	} catch (error) {
 		console.log(error.message);
-		return res.render('404', {
+		return res.status(404).render('404', {
 			pageTitle: 'Not Found',
 			errorMessage: error.message,
 			fakeUser,
@@ -54,7 +54,7 @@ export const getEdit = async (req, res) => {
 		});
 	} catch (error) {
 		console.log(error.message);
-		return res.render('404', {
+		return res.status(404).render('404', {
 			pageTitle: 'Not Found',
 			errorMessage: error.message,
 			fakeUser,
@@ -82,7 +82,7 @@ export const postEdit = async (req, res) => {
 		return res.redirect(`/videos/${id}`);
 	} catch (error) {
 		console.log(error.message);
-		return res.render('404', {
+		return res.status(404).render('404', {
 			pageTitle: 'Not Found',
 			errorMessage: error.message,
 			fakeUser,
@@ -111,7 +111,7 @@ export const postUpload = async (req, res) => {
 		return res.redirect('/');
 	} catch (err) {
 		console.log(err);
-		return res.render('video/upload', {
+		return res.status(400).render('video/upload', {
 			pageTitle: 'Upload new video',
 			fakeUser,
 			errorMessage: err._message,
