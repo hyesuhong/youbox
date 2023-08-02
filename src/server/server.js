@@ -1,5 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
+import session from 'express-session';
+import { localsMiddleware } from './middleware/locals';
 import './db/database';
 import './model/videos';
 import './model/users';
@@ -17,6 +19,17 @@ app.set('views', `${process.cwd()}/src/client/views`);
 
 /* express understand form values */
 app.use(express.urlencoded({ extended: true }));
+
+/* use session middleware */
+app.use(
+	session({
+		secret: 'Hello!',
+		resave: true,
+		saveUninitialized: true,
+	})
+);
+
+app.use(localsMiddleware);
 
 /* use routers */
 app.use('/', root);

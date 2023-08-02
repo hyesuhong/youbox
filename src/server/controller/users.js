@@ -73,7 +73,14 @@ export const postLogin = async (req, res) => {
 			});
 		}
 
-		// storage user using session/cookies
+		req.session.loggedIn = true;
+		req.session.user = {
+			_id: user._id,
+			email: user.email,
+			username: user.username,
+			name: user.name,
+			location: user.location,
+		};
 
 		return res.redirect('/');
 	} catch (error) {
