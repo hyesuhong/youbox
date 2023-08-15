@@ -57,7 +57,13 @@ export const postLogin = async (req, res) => {
 	const { username, password } = req.body;
 
 	try {
-		const user = await User.findOne({ username, socialOnly: false });
+		// const user = await User.findOne({ username,socialOnly:false });
+		const user = await User.findOne({
+			$or: [
+				{ username, socialOnly: { $exists: false } },
+				{ username, socialOnly: false },
+			],
+		});
 
 		if (!user) {
 			throw new Error('An account with this username does not exists.', {
@@ -73,16 +79,7 @@ export const postLogin = async (req, res) => {
 			});
 		}
 
-		req.session.loggedIn = true;
-		req.session.user = {
-			_id: user._id,
-			email: user.email,
-			username: user.username,
-			name: user.name,
-			location: user.location,
-		};
-
-		return res.redirect('/');
+		return login(user, req, res);
 	} catch (error) {
 		const code = error.cause ? error.cause.code : 400;
 		const message = error.cause ? error.message : error._message;
@@ -166,16 +163,7 @@ export const finishGithubLogin = async (req, res) => {
 				});
 			}
 
-			req.session.loggedIn = true;
-			req.session.user = {
-				_id: user._id,
-				email: user.email,
-				username: user.username,
-				name: user.name,
-				location: user.location,
-			};
-
-			return res.redirect('/');
+			return login(user, req, res);
 		} else {
 			return res.status(400).redirect('/login');
 		}
@@ -184,7 +172,23 @@ export const finishGithubLogin = async (req, res) => {
 	}
 };
 
-export const handleLogout = (req, res) => res.send('Logout');
+const login = (user, req, res) => {
+	req.session.loggedIn = true;
+	req.session.user = {
+		_id: user._id,
+		email: user.email,
+		username: user.username,
+		name: user.name,
+		location: user.location,
+	};
+
+	return res.redirect('/');
+};
+
+export const getLogout = (req, res) => {
+	req.session.destroy();
+	return res.redirect('/');
+};
 
 export const handleProfile = (req, res) => res.send('user`s profile view');
 

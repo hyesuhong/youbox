@@ -1,5 +1,11 @@
 import express from 'express';
-import { getJoin, getLogin, postJoin, postLogin } from '../controller/users';
+import {
+	getJoin,
+	getLogin,
+	getLogout,
+	postJoin,
+	postLogin,
+} from '../controller/users';
 import { getHome, getSearch } from '../controller/videos';
 
 const rootRouter = express.Router();
@@ -10,6 +16,8 @@ rootRouter.get('/', getHome);
 rootRouter.route('/join').get(getJoin).post(postJoin);
 
 rootRouter.route('/login').get(getLogin).post(postLogin);
+
+rootRouter.get('/logout', getLogout);
 
 rootRouter.get('/search', getSearch);
 

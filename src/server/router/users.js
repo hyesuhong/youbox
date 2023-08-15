@@ -3,14 +3,11 @@ import {
 	finishGithubLogin,
 	handleDelete,
 	handleEdit,
-	handleLogout,
 	handleProfile,
 	startGithubLogin,
 } from '../controller/users';
 
 const usersRouter = express.Router();
-
-usersRouter.get('/logout', handleLogout);
 
 usersRouter.get('/edit', handleEdit);
 
