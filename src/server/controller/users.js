@@ -57,7 +57,7 @@ export const postLogin = async (req, res) => {
 	const { username, password } = req.body;
 
 	try {
-		const user = await User.findOne({ username });
+		const user = await User.findOne({ username, socialOnly: false });
 
 		if (!user) {
 			throw new Error('An account with this username does not exists.', {
@@ -153,19 +153,10 @@ export const finishGithubLogin = async (req, res) => {
 				return res.status(400).redirect('/login');
 			}
 
-			const existingUser = await User.findOne({ email: githubEmail.email });
+			let user = await User.findOne({ email: githubEmail.email });
 
-			if (existingUser) {
-				req.session.loggedIn = true;
-				req.session.user = {
-					_id: existingUser._id,
-					email: existingUser.email,
-					username: existingUser.username,
-					name: existingUser.name,
-					location: existingUser.location,
-				};
-			} else {
-				const user = await User.create({
+			if (!user) {
+				user = await User.create({
 					email: githubEmail.email,
 					name: userData.name,
 					username: userData.login,
@@ -173,16 +164,17 @@ export const finishGithubLogin = async (req, res) => {
 					location: userData.location,
 					socialOnly: true,
 				});
-
-				req.session.loggedIn = true;
-				req.session.user = {
-					_id: user._id,
-					email: user.email,
-					username: user.username,
-					name: user.name,
-					location: user.location,
-				};
 			}
+
+			req.session.loggedIn = true;
+			req.session.user = {
+				_id: user._id,
+				email: user.email,
+				username: user.username,
+				name: user.name,
+				location: user.location,
+			};
+
 			return res.redirect('/');
 		} else {
 			return res.status(400).redirect('/login');
