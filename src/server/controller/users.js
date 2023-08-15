@@ -94,6 +94,104 @@ export const postLogin = async (req, res) => {
 	}
 };
 
+export const startGithubLogin = (req, res) => {
+	const baseURL = 'https://github.com/login/oauth/authorize';
+	const config = {
+		client_id: process.env.GH_CLIENT,
+		allow_signup: false,
+		scope: 'read:user user:email',
+	};
+	const params = new URLSearchParams(config).toString();
+	const targetURL = `${baseURL}?${params}`;
+
+	return res.redirect(targetURL);
+};
+
+export const finishGithubLogin = async (req, res) => {
+	const { code } = req.query;
+	const baseURL = 'https://github.com/login/oauth/access_token';
+	const config = {
+		client_id: process.env.GH_CLIENT,
+		client_secret: process.env.GH_SECRET,
+		code,
+	};
+	const params = new URLSearchParams(config).toString();
+	const targetURL = `${baseURL}?${params}`;
+
+	try {
+		const tokenReq = await (
+			await fetch(targetURL, {
+				method: 'POST',
+				headers: {
+					Accept: 'application/json',
+				},
+			})
+		).json();
+
+		if (tokenReq.access_token) {
+			const { access_token } = tokenReq;
+			const apiURL = 'https://api.github.com/user';
+			const userData = await (
+				await fetch(apiURL, {
+					headers: {
+						Authorization: `Bearer ${access_token}`,
+					},
+				})
+			).json();
+
+			const emailData = await (
+				await fetch(`${apiURL}/emails`, {
+					headers: {
+						Authorization: `Bearer ${access_token}`,
+					},
+				})
+			).json();
+
+			const githubEmail = emailData.find((em) => em.primary && em.verified);
+
+			if (!githubEmail) {
+				return res.status(400).redirect('/login');
+			}
+
+			const existingUser = await User.findOne({ email: githubEmail.email });
+
+			if (existingUser) {
+				req.session.loggedIn = true;
+				req.session.user = {
+					_id: existingUser._id,
+					email: existingUser.email,
+					username: existingUser.username,
+					name: existingUser.name,
+					location: existingUser.location,
+				};
+			} else {
+				const user = await User.create({
+					email: githubEmail.email,
+					name: userData.name,
+					username: userData.login,
+					password: '',
+					location: userData.location,
+					socialOnly: true,
+				});
+
+				req.session.loggedIn = true;
+				req.session.user = {
+					_id: user._id,
+					email: user.email,
+					username: user.username,
+					name: user.name,
+					location: user.location,
+				};
+			}
+			return res.redirect('/');
+		} else {
+			return res.status(400).redirect('/login');
+		}
+	} catch (error) {
+		console.error(error);
+	}
+};
+
 export const handleLogout = (req, res) => res.send('Logout');
 
 export const handleProfile = (req, res) => res.send('user`s profile view');
