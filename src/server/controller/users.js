@@ -5,6 +5,7 @@ const pageInfo = {
 	join: { title: 'Join', view: 'user/join' },
 	login: { title: 'Login', view: 'user/login' },
 	edit: { title: 'Edit Profile', view: 'user/edit' },
+	changePassword: { title: 'Change Password', view: 'user/changePassword' },
 };
 
 export const getJoin = (req, res) =>
@@ -15,7 +16,9 @@ export const postJoin = async (req, res) => {
 		req.body;
 
 	if (password !== passwordConfirm) {
-		throw new Error('Password confirmation does not match.', { code: 400 });
+		throw new Error('Password confirmation does not match.', {
+			cause: { code: 400 },
+		});
 	}
 
 	try {
@@ -25,7 +28,7 @@ export const postJoin = async (req, res) => {
 
 		if (userExists) {
 			throw new Error('This username or email is already taken.', {
-				code: 400,
+				cause: { code: 400 },
 			});
 		}
 
@@ -232,6 +235,58 @@ export const postEdit = async (req, res) => {
 
 		return res.status(code).render(pageInfo.edit.view, {
 			pageTitle: pageInfo.edit.title,
+			errorMessage: message,
+		});
+	}
+};
+
+export const getChangePassword = (req, res) => {
+	return res.render(pageInfo.changePassword.view, {
+		pageTitle: pageInfo.changePassword.title,
+	});
+};
+
+export const postChangePassword = async (req, res) => {
+	const {
+		session: {
+			user: { _id },
+		},
+		body: { originPassword, newPassword, newPasswordConfirm },
+	} = req;
+
+	try {
+		const user = await User.findById(_id);
+
+		if (!user) {
+			throw new Error('An account with this username does not exists.', {
+				cause: { code: 400 },
+			});
+		}
+
+		const checkPass = await bcrypt.compare(originPassword, user.password);
+
+		if (!checkPass) {
+			throw new Error('Origin password dose not match.', {
+				cause: { code: 400 },
+			});
+		}
+
+		if (newPassword !== newPasswordConfirm) {
+			throw new Error('Password confirmation does not match.', {
+				cause: { code: 400 },
+			});
+		}
+
+		user.password = newPassword;
+		await user.save();
+
+		return res.redirect('/logout');
+	} catch (error) {
+		const code = error.cause ? error.cause.code : 400;
+		const message = error.cause ? error.message : error._message;
+
+		return res.status(code).render(pageInfo.changePassword.view, {
+			pageTitle: pageInfo.changePassword.title,
 			errorMessage: message,
 		});
 	}

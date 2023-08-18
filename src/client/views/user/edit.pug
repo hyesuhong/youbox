@@ -9,5 +9,9 @@ block content
 		input(type="email", name="email", placeholder="Email", required, value=loggedInUser.email)
 		input(type="text", name="username", placeholder="User's name", required, value=loggedInUser.username)
 		input(type="text", name="location", placeholder="Location", required, value=loggedInUser.location)
-		// input(type="password", name="password", placeholder="Password", required)
 		input(type="submit", value="Edit Profile")
+
+	if !loggedInUser.socialOnly
+		hr
+		a(href='change-password') Change Password &rarr;
+

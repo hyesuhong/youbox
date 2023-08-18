@@ -22,3 +22,11 @@ export const publicOnlyMiddleware = (req, res, next) => {
 
 	next();
 };
+
+export const notSocialOnlyMiddleware = (req, res, next) => {
+	if (req.session.user.socialOnly) {
+		return res.redirect('/');
+	}
+
+	next();
+};

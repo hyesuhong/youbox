@@ -1,13 +1,16 @@
 import express from 'express';
 import {
 	finishGithubLogin,
+	getChangePassword,
 	getEdit,
 	handleDelete,
 	handleProfile,
+	postChangePassword,
 	postEdit,
 	startGithubLogin,
 } from '../controller/users';
 import {
+	notSocialOnlyMiddleware,
 	protectorMiddleware,
 	publicOnlyMiddleware,
 } from '../middleware/locals';
@@ -15,6 +18,12 @@ import {
 const usersRouter = express.Router();
 
 usersRouter.route('/edit').all(protectorMiddleware).get(getEdit).post(postEdit);
+
+usersRouter
+	.route('/change-password')
+	.all(protectorMiddleware, notSocialOnlyMiddleware)
+	.get(getChangePassword)
+	.post(postChangePassword);
 
 usersRouter.get('/delete', handleDelete);
 
