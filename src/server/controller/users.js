@@ -15,10 +15,7 @@ export const postJoin = async (req, res) => {
 		req.body;
 
 	if (password !== passwordConfirm) {
-		return res.status(400).render(pageInfo.join.view, {
-			pageTitle: pageInfo.join.title,
-			errorMessage: 'Password confirmation does not match.',
-		});
+		throw new Error('Password confirmation does not match.', { code: 400 });
 	}
 
 	try {
@@ -27,9 +24,8 @@ export const postJoin = async (req, res) => {
 		});
 
 		if (userExists) {
-			return res.status(400).render(pageInfo.join.view, {
-				pageTitle: pageInfo.join.title,
-				errorMessage: 'This username or email is already taken.',
+			throw new Error('This username or email is already taken.', {
+				code: 400,
 			});
 		}
 
@@ -44,9 +40,12 @@ export const postJoin = async (req, res) => {
 		return res.redirect('/login');
 	} catch (error) {
 		console.log(error);
-		return res.status(400).render(pageInfo.join.view, {
+		const code = error.cause ? error.cause.code : 400;
+		const message = error.cause ? error.message : error._message;
+
+		return res.status(code).render(pageInfo.join.view, {
 			pageTitle: pageInfo.join.title,
-			errorMessage: error._message,
+			errorMessage: message,
 		});
 	}
 };
@@ -58,7 +57,6 @@ export const postLogin = async (req, res) => {
 	const { username, password } = req.body;
 
 	try {
-		// const user = await User.findOne({ username,socialOnly:false });
 		const user = await User.findOne({
 			$or: [
 				{ username, socialOnly: { $exists: false } },
@@ -191,8 +189,52 @@ export const getEdit = (req, res) => {
 	return res.render(pageInfo.edit.view, { pageTitle: pageInfo.edit.title });
 };
 
-export const postEdit = (req, res) => {
-	return res.end();
+export const postEdit = async (req, res) => {
+	const {
+		session: {
+			user: { _id, email: sessionEmail, username: sessionUsername },
+		},
+		body: { name, email, username, location },
+	} = req;
+
+	try {
+		if (username !== sessionUsername || email !== sessionEmail) {
+			const isExists = await User.exists({
+				$or: [{ username }, { email }],
+				$and: [{ _id: { $ne: _id } }],
+			});
+
+			if (isExists) {
+				throw new Error('Aleady taken username or email', {
+					cause: { code: 400 },
+				});
+			}
+		}
+
+		const updatedUser = await User.findByIdAndUpdate(
+			_id,
+			{
+				name,
+				email,
+				username,
+				location,
+			},
+			{ new: true }
+		);
+
+		const { password, __v, ...userInfo } = updatedUser._doc;
+		req.session.user = userInfo;
+
+		return res.redirect('/users/edit');
+	} catch (error) {
+		const code = error.cause ? error.cause.code : 400;
+		const message = error.cause ? error.message : error._message;
+
+		return res.status(code).render(pageInfo.edit.view, {
+			pageTitle: pageInfo.edit.title,
+			errorMessage: message,
+		});
+	}
 };
 
 export const handleProfile = (req, res) => res.send('user`s profile view');
