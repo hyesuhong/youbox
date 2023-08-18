@@ -1,11 +1,10 @@
-import { fakeUser } from '../model/users';
 import Video from '../model/videos';
 
 export const getHome = async (req, res) => {
 	try {
 		const videos = await Video.find({}).sort({ createdAt: 'desc' });
 
-		return res.render('home', { pageTitle: 'Home', fakeUser, videos });
+		return res.render('home', { pageTitle: 'Home', videos });
 	} catch (error) {
 		console.log(error);
 		return res.sendStatus(404);
@@ -24,7 +23,6 @@ export const getWatch = async (req, res) => {
 
 		return res.render('video/watch', {
 			pageTitle: video.title,
-			fakeUser,
 			video,
 		});
 	} catch (error) {
@@ -32,7 +30,6 @@ export const getWatch = async (req, res) => {
 		return res.status(404).render('404', {
 			pageTitle: 'Not Found',
 			errorMessage: error.message,
-			fakeUser,
 		});
 	}
 };
@@ -49,7 +46,6 @@ export const getEdit = async (req, res) => {
 
 		return res.render('video/edit', {
 			pageTitle: `Edit ${video.title}`,
-			fakeUser,
 			video,
 		});
 	} catch (error) {
@@ -57,7 +53,6 @@ export const getEdit = async (req, res) => {
 		return res.status(404).render('404', {
 			pageTitle: 'Not Found',
 			errorMessage: error.message,
-			fakeUser,
 		});
 	}
 };
@@ -85,7 +80,6 @@ export const postEdit = async (req, res) => {
 		return res.status(404).render('404', {
 			pageTitle: 'Not Found',
 			errorMessage: error.message,
-			fakeUser,
 		});
 	}
 };
@@ -93,7 +87,6 @@ export const postEdit = async (req, res) => {
 export const getUpload = (req, res) => {
 	return res.render('video/upload', {
 		pageTitle: 'Upload new video',
-		fakeUser,
 	});
 };
 
@@ -113,7 +106,6 @@ export const postUpload = async (req, res) => {
 		console.log(err);
 		return res.status(400).render('video/upload', {
 			pageTitle: 'Upload new video',
-			fakeUser,
 			errorMessage: err._message,
 		});
 	}
@@ -141,10 +133,10 @@ export const getSearch = async (req, res) => {
 			const videos = await Video.find({ title: { $regex: title } }); // => mongodb option
 			console.log(videos);
 
-			return res.render('search', { pageTitle: 'Search', fakeUser, videos });
+			return res.render('search', { pageTitle: 'Search', videos });
 		} catch (error) {
 			console.log(error);
 		}
 	}
-	return res.render('search', { pageTitle: 'Search', fakeUser });
+	return res.render('search', { pageTitle: 'Search' });
 };

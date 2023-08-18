@@ -4,6 +4,7 @@ import User from '../model/users';
 const pageInfo = {
 	join: { title: 'Join', view: 'user/join' },
 	login: { title: 'Login', view: 'user/login' },
+	edit: { title: 'Edit Profile', view: 'user/edit' },
 };
 
 export const getJoin = (req, res) =>
@@ -173,14 +174,10 @@ export const finishGithubLogin = async (req, res) => {
 };
 
 const login = (user, req, res) => {
+	const { password, __v, ...userInfo } = user._doc;
+
 	req.session.loggedIn = true;
-	req.session.user = {
-		_id: user._id,
-		email: user.email,
-		username: user.username,
-		name: user.name,
-		location: user.location,
-	};
+	req.session.user = userInfo;
 
 	return res.redirect('/');
 };
@@ -190,8 +187,14 @@ export const getLogout = (req, res) => {
 	return res.redirect('/');
 };
 
-export const handleProfile = (req, res) => res.send('user`s profile view');
+export const getEdit = (req, res) => {
+	return res.render(pageInfo.edit.view, { pageTitle: pageInfo.edit.title });
+};
 
-export const handleEdit = (req, res) => res.send('Edit User');
+export const postEdit = (req, res) => {
+	return res.end();
+};
+
+export const handleProfile = (req, res) => res.send('user`s profile view');
 
 export const handleDelete = (req, res) => res.send('Delete User');
