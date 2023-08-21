@@ -7,13 +7,14 @@ import {
 	handleProfile,
 	postChangePassword,
 	postEdit,
+	postUploadAvatar,
 	startGithubLogin,
 } from '../controller/users';
 import {
 	notSocialOnlyMiddleware,
 	protectorMiddleware,
 	publicOnlyMiddleware,
-	uploadFilesMulter,
+	uploadAvatars,
 } from '../middleware/locals';
 
 const usersRouter = express.Router();
@@ -22,7 +23,7 @@ usersRouter
 	.route('/edit')
 	.all(protectorMiddleware)
 	.get(getEdit)
-	.post(uploadFilesMulter.single('avatar'), postEdit);
+	.post(postUploadAvatar, postEdit);
 
 usersRouter
 	.route('/change-password')

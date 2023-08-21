@@ -1,5 +1,7 @@
 import bcrypt from 'bcrypt';
 import User from '../model/users';
+import { uploadAvatars } from '../middleware/locals';
+import { MulterError } from 'multer';
 
 const pageInfo = {
 	join: { title: 'Join', view: 'user/join' },
@@ -193,7 +195,7 @@ export const getEdit = (req, res) => {
 	return res.render(pageInfo.edit.view, { pageTitle: pageInfo.edit.title });
 };
 
-export const postEdit = async (req, res) => {
+export const postEdit = async (err, req, res, next) => {
 	const {
 		session: {
 			user: { _id, email: sessionEmail, username: sessionUsername, avatarUrl },
@@ -203,6 +205,10 @@ export const postEdit = async (req, res) => {
 	} = req;
 
 	try {
+		if (err) {
+			throw err;
+		}
+
 		if (username !== sessionUsername || email !== sessionEmail) {
 			const isExists = await User.exists({
 				$or: [{ username }, { email }],
@@ -234,13 +240,29 @@ export const postEdit = async (req, res) => {
 		return res.redirect('/users/edit');
 	} catch (error) {
 		const code = error.cause ? error.cause.code : 400;
-		const message = error.cause ? error.message : error._message;
+		const message = error.message ? error.message : error._message;
 
 		return res.status(code).render(pageInfo.edit.view, {
 			pageTitle: pageInfo.edit.title,
 			errorMessage: message,
 		});
 	}
+};
+
+export const postUploadAvatar = (req, res, next) => {
+	const upload = uploadAvatars.single('avatar');
+
+	upload(req, res, (error) => {
+		if (error) {
+			next(error);
+		}
+		// console.log('Error');
+		// console.log(error);
+
+		// console.log('Data');
+		// console.log(data);
+		// return error ? next(error) : res.send();
+	});
 };
 
 export const getChangePassword = (req, res) => {

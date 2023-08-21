@@ -33,4 +33,9 @@ export const notSocialOnlyMiddleware = (req, res, next) => {
 	next();
 };
 
-export const uploadFilesMulter = multer({ dest: 'uploads/' });
+export const uploadAvatars = multer({
+	dest: 'uploads/avatars/',
+	limits: {
+		fileSize: 3000,
+	},
+});
