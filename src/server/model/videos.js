@@ -9,6 +9,7 @@ const videoSchema = new mongoose.Schema({
 		views: { type: Number, default: 0, required: true },
 		rating: { type: Number, default: 0, required: true },
 	},
+	fileUrl: { type: String, required: true },
 });
 
 videoSchema.static('formatHashtags', function (hashtags) {
@@ -22,13 +23,6 @@ videoSchema.static('formatHashtags', function (hashtags) {
 // 	console.log('We are about to save:', this);
 // 	this.hashtags = await splitTags(this.hashtags);
 // });
-
-// const splitTags = (tags) => {
-// 	return tags[0]
-// 		.replace(/\s/gi, '')
-// 		.split(',')
-// 		.filter((el) => el !== '');
-// };
 
 const Video = mongoose.model('Video', videoSchema);
 

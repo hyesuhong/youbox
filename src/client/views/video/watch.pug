@@ -2,6 +2,8 @@ extends ../layout
 
 block content
 	div
+		video(src=`/${video.fileUrl}`, controls, width="200")
+	div
 		p=video.description
 		small=video.createdAt
 		
