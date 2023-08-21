@@ -33,6 +33,8 @@ app.use(
 
 app.use(localsMiddleware);
 
+app.use('/uploads', express.static('uploads'));
+
 /* use routers */
 app.use('/', root);
 app.use('/users', users);

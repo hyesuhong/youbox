@@ -162,6 +162,7 @@ export const finishGithubLogin = async (req, res) => {
 					password: '',
 					location: userData.location,
 					socialOnly: true,
+					avatarUrl: userData.avatar_url,
 				});
 			}
 
@@ -195,9 +196,10 @@ export const getEdit = (req, res) => {
 export const postEdit = async (req, res) => {
 	const {
 		session: {
-			user: { _id, email: sessionEmail, username: sessionUsername },
+			user: { _id, email: sessionEmail, username: sessionUsername, avatarUrl },
 		},
 		body: { name, email, username, location },
+		file,
 	} = req;
 
 	try {
@@ -221,6 +223,7 @@ export const postEdit = async (req, res) => {
 				email,
 				username,
 				location,
+				avatarUrl: file ? file.path : avatarUrl ? avatarUrl : '',
 			},
 			{ new: true }
 		);

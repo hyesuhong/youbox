@@ -1,3 +1,5 @@
+import multer from 'multer';
+
 export const localsMiddleware = (req, res, next) => {
 	const { loggedIn, user } = req.session;
 
@@ -30,3 +32,5 @@ export const notSocialOnlyMiddleware = (req, res, next) => {
 
 	next();
 };
+
+export const uploadFilesMulter = multer({ dest: 'uploads/' });

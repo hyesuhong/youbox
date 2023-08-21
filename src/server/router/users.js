@@ -13,11 +13,16 @@ import {
 	notSocialOnlyMiddleware,
 	protectorMiddleware,
 	publicOnlyMiddleware,
+	uploadFilesMulter,
 } from '../middleware/locals';
 
 const usersRouter = express.Router();
 
-usersRouter.route('/edit').all(protectorMiddleware).get(getEdit).post(postEdit);
+usersRouter
+	.route('/edit')
+	.all(protectorMiddleware)
+	.get(getEdit)
+	.post(uploadFilesMulter.single('avatar'), postEdit);
 
 usersRouter
 	.route('/change-password')
