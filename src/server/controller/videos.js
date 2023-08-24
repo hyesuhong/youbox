@@ -39,13 +39,22 @@ export const getWatch = async (req, res) => {
 };
 
 export const getEdit = async (req, res) => {
-	const { id } = req.params;
+	const {
+		params: { id },
+		session: {
+			user: { _id },
+		},
+	} = req;
 
 	try {
 		const video = await Video.findById(id);
 
 		if (!video) {
 			throw new Error('cannot found video');
+		}
+
+		if (video.owner.toString() !== _id) {
+			return res.status(403).redirect('/');
 		}
 
 		return res.render('video/edit', {
@@ -62,7 +71,12 @@ export const getEdit = async (req, res) => {
 };
 
 export const postEdit = async (req, res) => {
-	const { id } = req.params;
+	const {
+		params: { id },
+		session: {
+			user: { _id },
+		},
+	} = req;
 	const { title, description, hashtags } = req.body;
 
 	const isExist = Video.exists({ _id: id });
@@ -77,6 +91,10 @@ export const postEdit = async (req, res) => {
 			description,
 			hashtags: Video.formatHashtags(hashtags),
 		});
+
+		if (video.owner.toString() !== _id) {
+			return res.status(403).redirect('/');
+		}
 
 		return res.redirect(`/videos/${id}`);
 	} catch (error) {
@@ -126,10 +144,25 @@ export const postUpload = async (req, res) => {
 	}
 };
 
-export const deleteVideo = async (req, res) => {
-	const { id } = req.params;
+export const getDelete = async (req, res) => {
+	const {
+		params: { id },
+		session: {
+			user: { _id },
+		},
+	} = req;
 
 	try {
+		const video = await Video.findById(id);
+
+		if (!video) {
+			throw new Error('cannot found video');
+		}
+
+		if (video.owner.toString() !== _id) {
+			return res.status(403).redirect('/');
+		}
+
 		await Video.findByIdAndDelete(id);
 		return res.redirect('/');
 	} catch (error) {

@@ -5,7 +5,7 @@ import {
 	postEdit,
 	getUpload,
 	postUpload,
-	deleteVideo,
+	getDelete,
 } from '../controller/videos';
 import { protectorMiddleware, uploadVideos } from '../middleware/locals';
 
@@ -28,7 +28,7 @@ videosRouter
 videosRouter
 	.route(`/${idParams}/delete`) //
 	.all(protectorMiddleware)
-	.get(deleteVideo);
+	.get(getDelete);
 
 /* GET & POST: upload a video */
 videosRouter
