@@ -1,4 +1,5 @@
 import Video from '../model/videos';
+import User from '../model/users';
 
 export const getHome = async (req, res) => {
 	try {
@@ -15,7 +16,10 @@ export const getWatch = async (req, res) => {
 	const { id } = req.params;
 
 	try {
-		const video = await Video.findById(id);
+		const video = await Video.findById(id).populate({
+			path: 'owner',
+			select: 'name',
+		});
 
 		if (!video) {
 			throw new Error('cannot found video');
@@ -92,20 +96,26 @@ export const getUpload = (req, res) => {
 
 export const postUpload = async (req, res) => {
 	const {
+		session: {
+			user: { _id },
+		},
 		body: { title, description, hashtags },
 		file,
 	} = req;
-	console.log(file);
-
-	const video = new Video({
-		fileUrl: file.path,
-		title,
-		description,
-		hashtags: Video.formatHashtags(hashtags),
-	});
 
 	try {
-		await video.save();
+		const newVideo = await Video.create({
+			fileUrl: file.path,
+			title,
+			description,
+			hashtags: Video.formatHashtags(hashtags),
+			owner: _id,
+		});
+
+		const user = await User.findById(_id);
+		user.videos.push(newVideo._id);
+		user.save();
+
 		return res.redirect('/');
 	} catch (err) {
 		console.log(err);

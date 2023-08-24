@@ -4,7 +4,7 @@ import {
 	getChangePassword,
 	getEdit,
 	handleDelete,
-	handleProfile,
+	getProfile,
 	postChangePassword,
 	postEdit,
 	postUploadAvatar,
@@ -37,8 +37,8 @@ usersRouter.get('/github/start', publicOnlyMiddleware, startGithubLogin);
 
 usersRouter.get('/github/finish', publicOnlyMiddleware, finishGithubLogin);
 
-const idParams = ':id(\\d+)';
+const idParams = ':id([0-9a-f]{24})';
 
-usersRouter.get(`/${idParams}`, handleProfile);
+usersRouter.get(`/${idParams}`, getProfile);
 
 export default usersRouter;

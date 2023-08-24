@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import User from '../model/users';
+import Video from '../model/videos';
 import { uploadAvatars } from '../middleware/locals';
-import { MulterError } from 'multer';
 
 const pageInfo = {
 	join: { title: 'Join', view: 'user/join' },
@@ -317,6 +317,28 @@ export const postChangePassword = async (req, res) => {
 	}
 };
 
-export const handleProfile = (req, res) => res.send('user`s profile view');
+export const getProfile = async (req, res) => {
+	const { id } = req.params;
+
+	try {
+		const user = await User.findById(id).populate('videos');
+
+		console.log(user);
+
+		if (!user) {
+			throw new Error('There is no user');
+		}
+
+		return res.render('user/profile', {
+			pageTitle: user.name,
+			user,
+		});
+	} catch (error) {
+		return res.status(404).render('404', {
+			pageTitle: 'Not Found',
+			errorMessage: error.message,
+		});
+	}
+};
 
 export const handleDelete = (req, res) => res.send('Delete User');
