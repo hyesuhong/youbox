@@ -1,0 +1,146 @@
+header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 16px 32px;
+
+	.header__logo {
+		color: $darkPurple;
+		font-size: 24px;
+		font-weight: 700;
+	}
+
+	form {
+		display: flex;
+		flex: 1;
+		max-width: 600px;
+		margin: 0 24px;
+
+		input {
+			flex: 1;
+			border-radius: 4px 0 0 4px;
+			border: 1px solid rgba($color: $color, $alpha: 0.5);
+			outline: none;
+			background: transparent;
+			color: inherit;
+			padding: 0 4px;
+
+			&:focus {
+				border-color: $darkPurple;
+			}
+		}
+
+		button {
+			flex: 0 0 32px;
+			height: 32px;
+			border: none;
+			background: rgba($color: $darkPurple, $alpha: 0.2);
+			border-radius: 0 4px 4px 0;
+			cursor: pointer;
+
+			&:hover {
+				background: rgba($color: $darkPurple, $alpha: 0.8);
+			}
+
+			&:active {
+				background: rgba($color: $darkPurple, $alpha: 1);
+			}
+
+			svg {
+				width: 60%;
+				height: 60%;
+				fill: $color;
+			}
+		}
+	}
+
+	nav {
+		display: flex;
+		gap: 8px;
+		font-size: 14px;
+
+		& > a {
+			display: grid;
+			place-items: center;
+			padding: 0 8px;
+			height: 32px;
+			border-radius: 4px;
+
+			&:first-child {
+				border: 1px solid rgba($color: $darkPurple, $alpha: 0.2);
+				&:hover {
+					border-color: rgba($color: $darkPurple, $alpha: 0.8);
+				}
+
+				&:active {
+					border-color: $darkPurple;
+				}
+			}
+
+			&:nth-of-type(2) {
+				background: rgba($color: $darkPurple, $alpha: 0.2);
+				&:hover {
+					background: rgba($color: $darkPurple, $alpha: 0.8);
+				}
+
+				&:active {
+					background: rgba($color: $darkPurple, $alpha: 1);
+				}
+			}
+		}
+	}
+}
+
+.header__menu-wrapper {
+	position: relative;
+
+	& > span {
+		display: block;
+		width: 32px;
+		height: 32px;
+		border-radius: 50px;
+		overflow: hidden;
+		border: 1px solid $color;
+		cursor: pointer;
+
+		& > img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+
+	& > ul {
+		position: absolute;
+		top: calc(100% + 8px);
+		right: 0;
+
+		display: flex;
+		flex-direction: column;
+		white-space: nowrap;
+
+		background: $bg;
+		border: 1px solid rgba($color: $color, $alpha: 0.5);
+		border-radius: 4px;
+
+		scale: 1 0;
+		opacity: 0;
+		transform-origin: top center;
+
+		transition: scale 0.3s, opacity 0.3s;
+
+		li {
+			padding: 8px 16px;
+			border-bottom: 1px solid rgba($color: $color, $alpha: 0.5);
+
+			&:last-child {
+				border-bottom: none;
+			}
+		}
+	}
+
+	&.active > ul {
+		scale: 1 1;
+		opacity: 1;
+	}
+}

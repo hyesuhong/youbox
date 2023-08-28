@@ -1,5 +1,16 @@
-@import './_variables';
+// Config
+@import './config/_variables';
+@import './config/_reset';
 
+// Components
+@import './components/header';
+
+// Screens
+//
+
+// Default
 body {
-	background: $beige;
+	font-family: 'Pretendard', sans-serif;
+	background: $bg;
+	color: $color;
 }
