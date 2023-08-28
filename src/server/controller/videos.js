@@ -189,5 +189,5 @@ export const getSearch = async (req, res) => {
 			console.log(error);
 		}
 	}
-	return res.render('search', { pageTitle: 'Search' });
+	return res.render('search', { pageTitle: 'Search', videos: [] });
 };
