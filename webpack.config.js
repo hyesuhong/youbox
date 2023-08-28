@@ -3,10 +3,12 @@ const path = require('path');
 
 module.exports = {
 	mode: 'development',
+	watch: true,
 	entry: './src/client/js/index.js',
 	output: {
 		filename: 'js/index.js',
 		path: path.resolve(__dirname, 'assets'),
+		clean: true,
 	},
 	module: {
 		rules: [
