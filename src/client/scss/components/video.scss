@@ -1,0 +1,16 @@
+.video-mixin {
+	.video-mixin__thumb {
+		height: 160px;
+		border-radius: 8px;
+		background-color: $lightPurple;
+	}
+
+	.video-mixin__data {
+		padding: 8px;
+	}
+
+	.video-mixin__meta {
+		font-size: 14px;
+		text-align: right;
+	}
+}

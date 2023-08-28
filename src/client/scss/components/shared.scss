@@ -1,0 +1,27 @@
+.video__grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	grid-auto-rows: max-content;
+	gap: 24px;
+
+	min-height: 100vh;
+	padding: 32px;
+}
+
+@media (max-width: 768px) {
+	.video__grid {
+		grid-template-columns: repeat(2, 1fr);
+		gap: 16px;
+	}
+}
+
+@media (max-width: 393px) {
+	.video__grid {
+		grid-template-columns: repeat(1, 1fr);
+	}
+}
+
+.empty__message {
+	font-size: 16px;
+	opacity: 0.5;
+}

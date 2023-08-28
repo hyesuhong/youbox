@@ -2,12 +2,8 @@ extends layout
 include ./mixins/videoThumb
 
 block content
-	form()
-		input(placeholder="Search by title" name="keyword")
-		input(type="submit", value="Search")
-
-	if (videos)
+	div.video__grid
 		each data in videos
 			+video(data)
 		else
-			p There is no video.
+			p.empty__message There is no video.

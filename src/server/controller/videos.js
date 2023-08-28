@@ -3,7 +3,9 @@ import User from '../model/users';
 
 export const getHome = async (req, res) => {
 	try {
-		const videos = await Video.find({}).sort({ createdAt: 'desc' });
+		const videos = await Video.find({})
+			.sort({ createdAt: 'desc' })
+			.populate('owner');
 
 		return res.render('home', { pageTitle: 'Home', videos });
 	} catch (error) {
@@ -178,10 +180,11 @@ export const getSearch = async (req, res) => {
 
 		try {
 			// const videos = await Video.find({ title: title }); // => moongose option
-			const videos = await Video.find({ title: { $regex: title } }); // => mongodb option
-			console.log(videos);
+			const videos = await Video.find({ title: { $regex: title } }).populate(
+				'owner'
+			); // => mongodb option
 
-			return res.render('search', { pageTitle: 'Search', videos });
+			return res.render('search', { pageTitle: 'Search', keyword, videos });
 		} catch (error) {
 			console.log(error);
 		}

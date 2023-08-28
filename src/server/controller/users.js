@@ -321,9 +321,13 @@ export const getProfile = async (req, res) => {
 	const { id } = req.params;
 
 	try {
-		const user = await User.findById(id).populate('videos');
-
-		console.log(user);
+		const user = await User.findById(id).populate({
+			path: 'videos',
+			populate: {
+				path: 'owner',
+				model: 'User',
+			},
+		});
 
 		if (!user) {
 			throw new Error('There is no user');

@@ -1,10 +1,10 @@
-mixin video(data)
-	div
-		h4
-			a(href=`/videos/${data.id}`)=data.title
-		p=data.description
-		hr
-		small=data.createdAt
-		ul
-			li #{data.meta.rating} / 5
-			li #{data.meta.views} views
+mixin video(video)
+	a.video-mixin(href=`/videos/${video.id}`)
+		dl
+			dt.video-mixin__thumb
+			dd.video-mixin__data
+				h6.video-mixin__title=video.title
+				ul.video-mixin__meta
+					li=video.owner.name
+					li #{video.meta.views} views
+			

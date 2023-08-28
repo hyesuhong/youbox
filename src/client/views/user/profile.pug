@@ -2,7 +2,8 @@ extends ../layout
 include ../mixins/videoThumb
 
 block content
-	each video in user.videos
-		+video(video)
-	else
-		p There is no video.
+	div.video__grid
+		each data in videos
+			+video(data)
+		else
+			p.empty__message There is no video.
