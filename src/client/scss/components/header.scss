@@ -10,61 +10,6 @@ header {
 		font-weight: 700;
 	}
 
-	form {
-		display: flex;
-		flex: 1;
-		max-width: 600px;
-		margin: 0 24px;
-
-		input {
-			flex: 1;
-			border-radius: 4px 0 0 4px;
-			border: 1px solid rgba($color: $color, $alpha: 0.5);
-			outline: none;
-			background: transparent;
-			color: inherit;
-			padding: 0 4px;
-
-			&:focus {
-				border-color: $darkPurple;
-			}
-		}
-
-		button {
-			position: relative;
-
-			flex: 0 0 32px;
-			height: 32px;
-			border: none;
-			border-radius: 0 4px 4px 0;
-			background: rgba($color: $darkPurple, $alpha: 0.2);
-			cursor: pointer;
-
-			&:hover {
-				background: rgba($color: $darkPurple, $alpha: 0.8);
-			}
-
-			&:active {
-				background: $darkPurple;
-			}
-
-			&::before {
-				content: '';
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 100%;
-				height: 100%;
-				background: $color;
-
-				mask: $icoSearch no-repeat center center;
-				mask-size: 60%;
-				-webkit-mask: $icoSearch no-repeat center center;
-				-webkit-mask-size: 60%;
-			}
-		}
-	}
-
 	nav {
 		display: flex;
 		gap: 8px;
@@ -73,8 +18,8 @@ header {
 		& > a {
 			display: grid;
 			place-items: center;
-			padding: 0 8px;
-			height: 32px;
+			padding: 0 16px;
+			height: 40px;
 			border-radius: 4px;
 
 			&:first-child {
@@ -102,13 +47,59 @@ header {
 	}
 }
 
+.search__form {
+	display: flex;
+	flex: 1;
+	margin: 0 24px;
+
+	input {
+		width: auto;
+		flex: 1;
+		border-radius: 4px 0 0 4px;
+	}
+
+	button {
+		position: relative;
+
+		flex: 0 0 40px;
+		height: 40px;
+		border: none;
+		border-radius: 0 4px 4px 0;
+		background: rgba($color: $darkPurple, $alpha: 0.2);
+		cursor: pointer;
+
+		&:hover {
+			background: rgba($color: $darkPurple, $alpha: 0.8);
+		}
+
+		&:active {
+			background: $darkPurple;
+		}
+
+		&::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: $color;
+
+			mask: $icoSearch no-repeat center center;
+			mask-size: 50%;
+			-webkit-mask: $icoSearch no-repeat center center;
+			-webkit-mask-size: 50%;
+		}
+	}
+}
+
 .header__menu-wrapper {
 	position: relative;
 
 	& > span {
 		display: block;
-		width: 32px;
-		height: 32px;
+		width: 40px;
+		height: 40px;
 		border-radius: 50px;
 		overflow: hidden;
 		border: 1px solid $color;

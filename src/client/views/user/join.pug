@@ -13,9 +13,8 @@ block content
 		input(type="text", name="location", placeholder="Location")
 		input(type="submit", value="Join")
 
-	hr
+	include ../components/social-login
 
-	div 
-		span Already have an account?
-		br
+	div.link-switch
+		span Already have an account? 
 		a(href="/login") Log in now &rarr;

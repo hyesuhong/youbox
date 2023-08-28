@@ -1,6 +1,6 @@
 header
 	a.header__logo(href="/") YouBox
-	form(action="/search")
+	form.search__form(action="/search")
 		if keyword
 			input(type="text" name="keyword" placeholder="Search by title" value=keyword)
 		else

@@ -7,9 +7,12 @@
 @import './components/footer';
 @import './components/shared';
 @import './components/video';
+@import './components/forms';
+@import './components/social-login';
 
 // Screens
 @import './screens/profile';
+@import './screens/edit-profile';
 
 // Default
 body {
@@ -52,4 +55,8 @@ h6 {
 	font-size: 20px;
 	font-weight: 400;
 	line-height: 28px;
+}
+
+main {
+	min-height: 100vh;
 }

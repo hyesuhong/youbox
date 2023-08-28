@@ -9,13 +9,8 @@ block content
 		input(type="password", name="password", placeholder="Password", required)
 		input(type="submit", value="Log in")
 
-	hr
+	include ../components/social-login
 
-	a(href="/users/github/start") Continue with Github &rarr;
-
-	hr
-
-	div 
-		span Don't have an account?
-		br
+	div.link-switch
+		span Don't have an account? 
 		a(href="/join") Join now &rarr;
