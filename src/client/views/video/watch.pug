@@ -1,20 +1,35 @@
 extends ../layout
 
 block content
-	div
-		video(src=`/${video.fileUrl}`, controls, width="200")
-	div
+	div#videoContainer
+		video(src=`/${video.fileUrl}`)
+		div#videoControls.videoControls
+			div.videoControls__play
+				button#play.videoControls__btn.videoControls__btn-play
+				div.videoControls__time
+					span#currentTime 00:00
+					span  / 
+					span#totalTime 00:00
+			input#timeline(type="range", min="0", max="1", step="1", value="0")
+			div.videoControls__volume
+				input#volume(type="range", min="0", max="1", step="0.1" value="0.5",)
+				button#mute.videoControls__btn.videoControls__btn-mute
+			button#fullscreen.videoControls__btn.videoControls__btn-screen
+
+	//- div
 		p=video.description
 		small=video.createdAt
 		br
 		small Uploaded by 
 			a(href=`/users/${video.owner._id}`)=video.owner.name
 		
-	h3 #{video.meta.views} #{video.meta.views < 2 ? "view" :"views"}
+	//- h3 #{video.meta.views} #{video.meta.views < 2 ? "view" :"views"}
 
-	if loggedInUser
+	//- if loggedInUser
 		if String(video.owner._id) === String(loggedInUser._id)
 			a(href=`${video.id}/edit`) Edit Video &rarr;
 			br
 			a(href=`${video.id}/delete` onClick="return confirm('Are you sure deleting this video?')") Delete Video &rarr;
 	
+block scripts
+	script(src="/static/js/videoPlayer.js")

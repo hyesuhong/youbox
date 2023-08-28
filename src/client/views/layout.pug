@@ -4,9 +4,10 @@ html(lang='ko')
 		title #{pageTitle} | Youbox
 		link(rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css")
 		link(rel="stylesheet" href="/static/css/styles.css")
-		script(src='/static/js/index.js' defer)
+		script(src='/static/js/header.js' defer)
 	body
 		include ./components/header
 		main
 			block content
 		include ./components/footer
+	block scripts

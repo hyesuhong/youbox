@@ -1,0 +1,109 @@
+#videoContainer {
+	width: 100%;
+	aspect-ratio: 1.7;
+	position: relative;
+
+	video {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+	}
+}
+
+.videoControls {
+	position: absolute;
+	bottom: 16px;
+	left: 50%;
+	transform: translateX(-50%);
+
+	display: grid;
+	grid-template-columns: 1fr 3fr 1fr auto;
+	gap: 8px;
+	align-items: center;
+	justify-content: space-between;
+
+	width: 90%;
+	font-size: 12px;
+
+	background: $bg;
+	padding: 8px;
+	border-radius: 8px;
+
+	opacity: 0;
+	transition: opacity 0.5s ease-in-out;
+
+	&.showing {
+		opacity: 1;
+	}
+
+	& input[type='range'] {
+		accent-color: $darkPurple;
+	}
+}
+
+.videoControls__btn {
+	width: 32px;
+	height: 32px;
+	background: $color;
+	border: none;
+	cursor: pointer;
+
+	mask-size: 60%;
+	-webkit-mask-size: 60%;
+}
+
+.videoControls__play {
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.videoControls__btn-play {
+	margin-right: 8px;
+	mask: $icoPlay no-repeat center center;
+	-webkit-mask: $icoPlay no-repeat center center;
+	mask-size: 60%;
+	-webkit-mask-size: 60%;
+
+	&.pause {
+		mask: $icoPause no-repeat center center;
+		-webkit-mask: $icoPause no-repeat center center;
+		mask-size: 60%;
+		-webkit-mask-size: 60%;
+	}
+}
+
+.videoControls__volume {
+	display: flex;
+	align-items: center;
+}
+
+.videoControls__btn-mute {
+	margin-left: 8px;
+
+	mask: $icoMute no-repeat center center;
+	-webkit-mask: $icoMute no-repeat center center;
+	mask-size: 60%;
+	-webkit-mask-size: 60%;
+
+	&.volume {
+		mask: $icoVolume no-repeat center center;
+		-webkit-mask: $icoVolume no-repeat center center;
+		mask-size: 60%;
+		-webkit-mask-size: 60%;
+	}
+}
+
+.videoControls__btn-screen {
+	mask: $icoEnterFullscreen no-repeat center center;
+	-webkit-mask: $icoEnterFullscreen no-repeat center center;
+	mask-size: 60%;
+	-webkit-mask-size: 60%;
+
+	&.exit {
+		mask: $icoExitFullscreen no-repeat center center;
+		-webkit-mask: $icoExitFullscreen no-repeat center center;
+		mask-size: 60%;
+		-webkit-mask-size: 60%;
+	}
+}
