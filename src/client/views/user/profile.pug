@@ -2,8 +2,18 @@ extends ../layout
 include ../mixins/videoThumb
 
 block content
+	div.profile__data
+		span.avatar
+			if user.avatarUrl && user.avatarUrl != ''
+				if user.avatarUrl.includes('http')
+					img(src=user.avatarUrl)
+				else
+					img(src=`/${user.avatarUrl}`)
+			else
+				i.avatar__empty
+		h3=user.name
 	div.video__grid
-		each data in videos
+		each data in user.videos
 			+video(data)
 		else
 			p.empty__message There is no video.
