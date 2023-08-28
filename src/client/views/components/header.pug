@@ -1,0 +1,24 @@
+header
+	if loggedInUser
+		span Hello #{loggedInUser.username}
+	nav
+		ul
+			if loggedIn
+				li
+					a(href='/users/edit') Edit Profile
+				li
+					a(href=`/users/${loggedInUser._id}`) My Profile
+				li
+					a(href='/logout') Logout
+				li
+					a(href='/videos/upload') Upload
+			else
+				li
+					a(href='/login') Login
+				li
+					a(href='/join') Join
+			li
+				a(href='/search') Search
+			li
+				a(href='/') Home
+	h1=pageTitle
