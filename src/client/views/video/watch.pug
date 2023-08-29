@@ -2,7 +2,7 @@ extends ../layout
 
 block content
 	div#videoContainer
-		video(src=`/${video.fileUrl}`)
+		video(src=`/${video.fileUrl}` data-id=video._id)
 		div#videoControls.videoControls
 			div.videoControls__play
 				button#play.videoControls__btn.videoControls__btn-play

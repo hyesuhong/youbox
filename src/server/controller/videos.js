@@ -191,3 +191,25 @@ export const getSearch = async (req, res) => {
 	}
 	return res.render('search', { pageTitle: 'Search', videos: [] });
 };
+
+export const postVideoView = async (req, res) => {
+	const {
+		params: { id },
+	} = req;
+
+	try {
+		const video = await Video.findById(id);
+
+		if (!video) {
+			throw new Error('cannot found video');
+		}
+
+		video.meta.views = video.meta.views + 1;
+		await video.save();
+
+		return res.sendStatus(200);
+	} catch (error) {
+		console.log(error.message);
+		return res.sendStatus(404);
+	}
+};

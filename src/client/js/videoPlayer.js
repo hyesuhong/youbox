@@ -96,8 +96,14 @@ const handleTimeUpdate = (e) => {
 	timelineRange.value = time;
 };
 
-const handleVideoEnded = (e) => {
+const handleVideoEnded = async (e) => {
 	playBtn.classList.remove('pause');
+
+	const { id } = video.dataset;
+
+	await fetch(`/api/videos/${id}/view`, { method: 'POST' }).catch(
+		console.error
+	);
 };
 
 const clickVideoToPlayStop = () => {

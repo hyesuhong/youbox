@@ -9,6 +9,7 @@ import './model/users';
 import root from './router/root';
 import users from './router/users';
 import videos from './router/videos';
+import apiRouter from './router/api';
 
 const app = express();
 
@@ -41,5 +42,6 @@ app.use('/static', express.static('assets'));
 app.use('/', root);
 app.use('/users', users);
 app.use('/videos', videos);
+app.use('/api', apiRouter);
 
 export default app;
