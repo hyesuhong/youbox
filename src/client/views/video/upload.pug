@@ -4,6 +4,9 @@ block content
 	if errorMessage
 		span=errorMessage 
 
+	div
+		button#startBtn Start Record
+
 	form(method="POST" enctype="multipart/form-data")
 		label(for="video") Video File
 		input(type="file", accept="video/*" required id="video" name="video")
@@ -11,3 +14,6 @@ block content
 		textarea(name="description" required placeholder="Description" minlength=20)
 		input(name="hashtags" required placeholder="Hashtags, separated by comma")
 		input(type="submit", value="Upload")
+
+block scripts
+	script(src="/static/js/recorder.js") 
