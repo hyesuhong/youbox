@@ -3,7 +3,7 @@ include ../mixins/videoThumb
 
 block content
 	div.profile__data
-		span.avatar
+		span.avatar.large
 			if user.avatarUrl && user.avatarUrl != ''
 				if user.avatarUrl.includes('http')
 					img(src=user.avatarUrl)

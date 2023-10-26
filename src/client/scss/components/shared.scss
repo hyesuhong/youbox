@@ -26,11 +26,19 @@
 }
 
 .avatar {
-	width: 160px;
-	height: 160px;
 	border-radius: 50%;
 	border: 1px solid $color;
 	overflow: hidden;
+
+	&.large {
+		width: 160px;
+		height: 160px;
+	}
+
+	&.medium {
+		width: 40px;
+		height: 40px;
+	}
 
 	img {
 		width: 100%;
