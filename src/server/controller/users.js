@@ -42,15 +42,17 @@ export const postJoin = async (req, res) => {
 			location,
 		});
 
+		req.flash('success', `Join successfuly. Let's log-in our site!`);
 		return res.redirect('/login');
 	} catch (error) {
 		console.log(error);
 		const code = error.cause ? error.cause.code : 400;
 		const message = error.cause ? error.message : error._message;
 
+		const errorMsg = `${message}(with error code ${code})`;
+		req.flash('error', errorMsg);
 		return res.status(code).render(pageInfo.join.view, {
 			pageTitle: pageInfo.join.title,
-			errorMessage: message,
 		});
 	}
 };
@@ -88,9 +90,11 @@ export const postLogin = async (req, res) => {
 		const code = error.cause ? error.cause.code : 400;
 		const message = error.cause ? error.message : error._message;
 
+		const errorMsg = `${message}(with error code ${code})`;
+		req.flash('error', errorMsg);
+
 		return res.status(code).render(pageInfo.login.view, {
 			pageTitle: pageInfo.login.title,
-			errorMessage: message,
 		});
 	}
 };
@@ -151,6 +155,7 @@ export const finishGithubLogin = async (req, res) => {
 			const githubEmail = emailData.find((em) => em.primary && em.verified);
 
 			if (!githubEmail) {
+				req.flash('error', 'Cannot find github email. Please try again');
 				return res.status(400).redirect('/login');
 			}
 
@@ -170,6 +175,10 @@ export const finishGithubLogin = async (req, res) => {
 
 			return login(user, req, res);
 		} else {
+			req.flash(
+				'error',
+				'Elready joined user using your email. Please log-in email ans password.'
+			);
 			return res.status(400).redirect('/login');
 		}
 	} catch (error) {
@@ -183,6 +192,7 @@ const login = (user, req, res) => {
 	req.session.loggedIn = true;
 	req.session.user = userInfo;
 
+	req.flash('info', 'Welcome!');
 	return res.redirect('/');
 };
 
@@ -238,14 +248,17 @@ export const postEdit = async (err, req, res, next) => {
 		const { password, __v, ...userInfo } = updatedUser._doc;
 		req.session.user = userInfo;
 
+		req.flash('success', 'Update your information!');
 		return res.redirect('/users/edit');
 	} catch (error) {
 		const code = error.cause ? error.cause.code : 400;
 		const message = error.message ? error.message : error._message;
 
+		const errorMsg = `${message}(with error code ${code})`;
+		req.flash('error', errorMsg);
+
 		return res.status(code).render(pageInfo.edit.view, {
 			pageTitle: pageInfo.edit.title,
-			errorMessage: message,
 		});
 	}
 };
@@ -306,15 +319,20 @@ export const postChangePassword = async (req, res) => {
 		user.password = newPassword;
 		await user.save();
 
-		req.flash('info', 'Password changed');
+		req.flash(
+			'info',
+			'Password updated. Please log-in again with changed password.'
+		);
 		return res.redirect('/logout');
 	} catch (error) {
 		const code = error.cause ? error.cause.code : 400;
 		const message = error.cause ? error.message : error._message;
 
+		const errorMsg = `${message}(with error code ${code})`;
+		req.flash('error', errorMsg);
+
 		return res.status(code).render(pageInfo.changePassword.view, {
 			pageTitle: pageInfo.changePassword.title,
-			errorMessage: message,
 		});
 	}
 };

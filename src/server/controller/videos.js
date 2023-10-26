@@ -24,7 +24,7 @@ export const getWatch = async (req, res) => {
 		});
 
 		if (!video) {
-			throw new Error('cannot found video');
+			throw new Error('Cannot found video');
 		}
 
 		return res.render('video/watch', {
@@ -56,7 +56,7 @@ export const getEdit = async (req, res) => {
 		}
 
 		if (video.owner.toString() !== _id) {
-			req.flash('error', 'Not Authorized');
+			req.flash('error', 'Not Authorized. This is not your video.');
 			return res.status(403).redirect('/');
 		}
 
@@ -96,10 +96,11 @@ export const postEdit = async (req, res) => {
 		});
 
 		if (video.owner.toString() !== _id) {
-			req.flash('error', 'Not Authorized');
+			req.flash('error', 'Not Authorized. This is not your video.');
 			return res.status(403).redirect('/');
 		}
 
+		req.flash('success', 'Video updated!');
 		return res.redirect(`/videos/${id}`);
 	} catch (error) {
 		console.log(error.message);
@@ -138,13 +139,17 @@ export const postUpload = async (req, res) => {
 		user.videos.push(newVideo._id);
 		user.save();
 
-		req.flash('success', 'Upload video successfuly');
+		req.flash('success', 'Upload video successfully');
 		return res.redirect('/');
 	} catch (err) {
-		console.log(err);
+		const code = err.cause ? err.cause.code : 400;
+		const message = err.cause ? err.message : err._message;
+
+		const errorMsg = `${message}(with error code ${code})`;
+		req.flash('error', errorMsg);
+
 		return res.status(400).render('video/upload', {
 			pageTitle: 'Upload new video',
-			errorMessage: err._message,
 		});
 	}
 };
@@ -165,11 +170,12 @@ export const getDelete = async (req, res) => {
 		}
 
 		if (video.owner.toString() !== _id) {
-			req.flash('error', 'Not Authorized');
+			req.flash('error', 'Not Authorized. This is not your video.');
 			return res.status(403).redirect('/');
 		}
 
 		await Video.findByIdAndDelete(id);
+		req.flash('success', 'Video deleted');
 		return res.redirect('/');
 	} catch (error) {
 		console.log(error);
