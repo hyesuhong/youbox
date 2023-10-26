@@ -188,6 +188,7 @@ const login = (user, req, res) => {
 
 export const getLogout = (req, res) => {
 	req.session.destroy();
+	req.flash('info', 'See you again!');
 	return res.redirect('/');
 };
 
@@ -305,6 +306,7 @@ export const postChangePassword = async (req, res) => {
 		user.password = newPassword;
 		await user.save();
 
+		req.flash('info', 'Password changed');
 		return res.redirect('/logout');
 	} catch (error) {
 		const code = error.cause ? error.cause.code : 400;

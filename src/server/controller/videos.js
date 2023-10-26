@@ -56,6 +56,7 @@ export const getEdit = async (req, res) => {
 		}
 
 		if (video.owner.toString() !== _id) {
+			req.flash('error', 'Not Authorized');
 			return res.status(403).redirect('/');
 		}
 
@@ -95,6 +96,7 @@ export const postEdit = async (req, res) => {
 		});
 
 		if (video.owner.toString() !== _id) {
+			req.flash('error', 'Not Authorized');
 			return res.status(403).redirect('/');
 		}
 
@@ -136,6 +138,7 @@ export const postUpload = async (req, res) => {
 		user.videos.push(newVideo._id);
 		user.save();
 
+		req.flash('success', 'Upload video successfuly');
 		return res.redirect('/');
 	} catch (err) {
 		console.log(err);
@@ -162,6 +165,7 @@ export const getDelete = async (req, res) => {
 		}
 
 		if (video.owner.toString() !== _id) {
+			req.flash('error', 'Not Authorized');
 			return res.status(403).redirect('/');
 		}
 

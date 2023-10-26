@@ -1,0 +1,43 @@
+.message {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	padding: 10px;
+	z-index: 100;
+
+	animation: slide-up 1s 3s forwards;
+
+	&.error {
+		background: $error;
+	}
+
+	&.warn {
+		background: $warn;
+	}
+
+	&.success {
+		background: $success;
+	}
+
+	&.info {
+		background: $info;
+	}
+}
+
+@keyframes slide-up {
+	0% {
+		transform: translateY(0);
+	}
+
+	99% {
+		transform: translateY(-100%);
+		opacity: 0;
+	}
+
+	100% {
+		transform: translateY(-100%);
+		opacity: 0;
+		visibility: hidden;
+	}
+}
