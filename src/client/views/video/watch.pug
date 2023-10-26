@@ -1,6 +1,13 @@
 extends ../layout
 
 block content
+	if loggedInUser
+		if String(video.owner._id) === String(loggedInUser._id)
+			section.video__manage
+				a(href=`${video.id}/edit`) Edit Video &rarr;
+				br
+				a(href=`${video.id}/delete` onClick="return confirm('Are you sure deleting this video?')") Delete Video &rarr;
+
 	div#videoContainer
 		video(src=`/${video.fileUrl}` data-id=video._id)
 		div#videoControls.videoControls
@@ -16,20 +23,26 @@ block content
 				button#mute.videoControls__btn.videoControls__btn-mute
 			button#fullscreen.videoControls__btn.videoControls__btn-screen
 
-	//- div
-		p=video.description
-		small=video.createdAt
-		br
-		small Uploaded by 
-			a(href=`/users/${video.owner._id}`)=video.owner.name
-		
-	//- h3 #{video.meta.views} #{video.meta.views < 2 ? "view" :"views"}
+	section.videoInfo
+		h4.videoInfo__title=video.title
+		p.videoInfo__meta #{video.meta.views} #{video.meta.views < 2 ? "view" :"views"}
+		p.videoInfo__meta=video.createdAt
 
-	//- if loggedInUser
-		if String(video.owner._id) === String(loggedInUser._id)
-			a(href=`${video.id}/edit`) Edit Video &rarr;
-			br
-			a(href=`${video.id}/delete` onClick="return confirm('Are you sure deleting this video?')") Delete Video &rarr;
+	section.ownerInfo
+		a(href=`/users/${video.owner._id}`)
+			div.avatar.medium
+				if video.owner.avatarUrl && video.owner.avatarUrl != ''
+					if video.owner.avatarUrl.includes('http')
+						img(src=video.owner.avatarUrl)
+					else
+						img(src=`/${video.owner.avatarUrl}`)
+				else
+					i.avatar__empty
+			h6=video.owner.name
+
+
+	section.videoInfo
+		p.videoInfo__desc=video.description
 	
 block scripts
 	script(src="/static/js/videoPlayer.js")

@@ -20,7 +20,7 @@ export const getWatch = async (req, res) => {
 	try {
 		const video = await Video.findById(id).populate({
 			path: 'owner',
-			select: 'name',
+			select: 'name avatarUrl',
 		});
 
 		if (!video) {

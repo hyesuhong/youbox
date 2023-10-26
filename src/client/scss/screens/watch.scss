@@ -1,0 +1,39 @@
+.video__manage {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	gap: 8px;
+
+	padding: 16px 0;
+
+	margin: 0 32px 16px;
+	border-bottom: 1px solid rgba($color: $color, $alpha: 0.5);
+}
+
+.videoInfo {
+	margin: 16px 32px 0;
+
+	&:last-child {
+		padding-bottom: 32px;
+	}
+}
+
+.videoInfo__meta {
+	font-size: 14px;
+	margin-top: 4px;
+	color: $grey;
+}
+
+.videoInfo__desc {
+	font-size: 14px;
+}
+
+.ownerInfo {
+	margin: 16px 32px 0;
+
+	& > a {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+	}
+}
