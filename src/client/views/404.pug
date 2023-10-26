@@ -1,1 +1,7 @@
 extends layout
+
+block content
+	section.not-found
+		h1 404
+		if errorMessage
+		p.not-found_message=errorMessage 
