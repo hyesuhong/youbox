@@ -2,6 +2,7 @@ mixin video(video)
 	a.video-mixin(href=`/videos/${video.id}`)
 		dl
 			dt.video-mixin__thumb
+				img(src=`/${video.thumbUrl}` alt=video.title)
 			dd.video-mixin__data
 				h6.video-mixin__title=video.title
 				ul.video-mixin__meta
