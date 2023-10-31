@@ -2,14 +2,11 @@ extends ../layout
 
 block content
 
-	//- div
-	//- 	button#startBtn Start Record
-
 	section.preview 
 		h5 Preview
 		article.preview__part 
 			h6.preview__part-title Video
-			video#previewVideo.preview__part-media
+			video#previewVideo.preview__part-media(loop muted autoplay)
 		article.preview__part 
 			h6.preview__part-title Thumbnail
 			image#previewThumb.preview__part-media
@@ -41,4 +38,4 @@ block content
 			input(type="submit", value="Upload")
 
 block scripts
-	script(src="/static/js/recorder.js") 
+	script(src="/static/js/upload.js")

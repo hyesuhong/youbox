@@ -9,6 +9,7 @@ module.exports = {
 		header: './src/client/js/header.js',
 		videoPlayer: './src/client/js/videoPlayer.js',
 		recorder: './src/client/js/recorder.js',
+		upload: './src/client/js/upload.js',
 	},
 	output: {
 		filename: 'js/[name].js',
