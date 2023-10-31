@@ -1,5 +1,6 @@
 import Video from '../model/videos';
 import User from '../model/users';
+import Comment from '../model/comment';
 
 export const getHome = async (req, res) => {
 	try {
@@ -18,10 +19,15 @@ export const getWatch = async (req, res) => {
 	const { id } = req.params;
 
 	try {
-		const video = await Video.findById(id).populate({
-			path: 'owner',
-			select: 'name avatarUrl',
-		});
+		const video = await Video.findById(id)
+			.populate({
+				path: 'owner',
+				select: 'name avatarUrl',
+			})
+			.populate({
+				path: 'comments',
+				populate: { path: 'owner', select: 'name avatarUrl' },
+			});
 
 		if (!video) {
 			throw new Error('Cannot found video');
@@ -223,4 +229,70 @@ export const postVideoView = async (req, res) => {
 		console.log(error.message);
 		return res.sendStatus(404);
 	}
+};
+
+export const postVideoComment = async (req, res) => {
+	const {
+		params: { id },
+		session: {
+			user: { _id },
+		},
+		body: { text },
+	} = req;
+
+	try {
+		const video = await Video.findById(id);
+
+		if (!video) {
+			throw new Error('cannot found video');
+		}
+
+		const comment = await Comment.create({ text, owner: _id, video: id });
+
+		video.comments.push(comment._id);
+		video.save();
+
+		const newComment = await Comment.findById(comment._id).populate({
+			path: 'owner',
+			select: 'name avatarUrl',
+		});
+
+		return res.status(201).send({ data: newComment });
+	} catch (error) {
+		console.log(error.message);
+		return res.sendStatus(404);
+	}
+
+	return res.end();
+};
+
+export const deleteVideoComment = async (req, res) => {
+	const {
+		params: { id },
+		session: {
+			user: { _id },
+		},
+	} = req;
+
+	try {
+		const comment = await Comment.findById(id);
+
+		if (!comment) {
+			throw new Error('cannot found comment');
+		}
+
+		if (comment.owner.toString() !== _id) {
+			req.flash('error', 'Not Authorized. This is not your comment.');
+			return res.status(403).redirect('/');
+		}
+
+		await Comment.findByIdAndDelete(id);
+
+		res.sendStatus(204);
+	} catch (error) {
+		console.log(error.message);
+		return res.sendStatus(404);
+	}
+
+	return res.end();
 };

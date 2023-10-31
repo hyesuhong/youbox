@@ -37,3 +37,98 @@
 		gap: 8px;
 	}
 }
+
+.video__comments {
+	padding: 16px 0;
+
+	&:last-child {
+		padding-bottom: 32px;
+	}
+
+	& .video__comments-form {
+		max-width: 100%;
+
+		align-items: flex-end;
+		gap: 8px;
+
+		& > textarea {
+			width: 100%;
+			flex: 0 0 40px;
+			resize: none;
+		}
+
+		& > button {
+			width: 120px;
+			flex: 0 0 40px;
+			border-radius: 4px;
+			border: none;
+			background: $darkPurple;
+			cursor: pointer;
+
+			&:hover {
+				background: rgba($color: $darkPurple, $alpha: 0.8);
+			}
+
+			&:active {
+				background: rgba($color: $darkPurple, $alpha: 0.9);
+			}
+		}
+	}
+
+	& .video__comments-list {
+		padding: 0 32px;
+
+		& > li {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			padding: 8px;
+			transition: background 0.3s;
+
+			&:hover {
+				background: rgba($color: $color, $alpha: 0.2);
+			}
+
+			&:last-child {
+				margin-bottom: 0;
+			}
+
+			& > div {
+				flex: 1;
+			}
+
+			& a {
+				font-weight: 500;
+				font-size: 14px;
+				opacity: 0.7;
+
+				&:hover {
+					opacity: 1;
+				}
+			}
+
+			& p {
+				margin-top: 6px;
+			}
+		}
+	}
+
+	& .video__comment-delete {
+		width: 60px;
+		height: 24px;
+		opacity: 0.5;
+
+		background: $color;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+
+		&:hover {
+			opacity: 1;
+		}
+
+		&:active {
+			opacity: 0.8;
+		}
+	}
+}

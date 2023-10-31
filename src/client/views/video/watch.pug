@@ -1,4 +1,5 @@
 extends ../layout
+include ../mixins/comment
 
 block content
 	if loggedInUser
@@ -43,6 +44,17 @@ block content
 
 	section.videoInfo
 		p.videoInfo__desc=video.description
+
+	section.video__comments
+		if loggedIn
+			form.video__comments-form#commentForm
+				textarea(required placeholder='Leave your comment!')
+				button Add
+		ul.video__comments-list
+			for comment in video.comments.reverse()
+				+comment(comment._id, comment.owner, comment.text)
 	
 block scripts
 	script(src="/static/js/videoPlayer.js")
+	if loggedIn
+		script(src="/static/js/comment.js")

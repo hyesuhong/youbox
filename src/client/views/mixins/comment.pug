@@ -1,0 +1,16 @@
+mixin comment(id,owner,text)
+	li.video__comment(data-id=id)
+		span.avatar.medium
+			if owner.avatarUrl && owner.avatarUrl != ''
+				if owner.avatarUrl.includes('http')
+					img(src=owner.avatarUrl)
+				else
+					img(src=`/${owner.avatarUrl}`)
+			else
+				i.avatar__empty
+		div
+			a(href=`/users/${owner._id}`)=owner.name
+			p=text
+		if loggedInUser
+			if String(owner._id) === String(loggedInUser._id)
+				button.video__comment-delete delete

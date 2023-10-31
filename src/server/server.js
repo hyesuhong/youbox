@@ -23,6 +23,7 @@ app.set('views', `${process.cwd()}/src/client/views`);
 
 /* express understand form values */
 app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
 /* use session middleware */
 app.use(
