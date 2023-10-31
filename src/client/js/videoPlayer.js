@@ -172,12 +172,14 @@ videoContainer.addEventListener('mouseleave', handleMouseLeave);
 videoContainer.addEventListener('fullscreenchange', handleFullscreenChange);
 
 const handleKeyDown = (e) => {
-	e.preventDefault();
-	const { code } = e;
+	if (e.target === document.body) {
+		e.preventDefault();
+		const { code } = e;
 
-	if (code === 'Space') {
-		playBtn.click();
-		return;
+		if (code === 'Space') {
+			playBtn.click();
+			return;
+		}
 	}
 };
 
