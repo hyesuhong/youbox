@@ -7,6 +7,7 @@ import { localsMiddleware } from './middleware/locals';
 import './db/database';
 import './model/videos';
 import './model/users';
+import './model/comment';
 import root from './router/root';
 import users from './router/users';
 import videos from './router/videos';
