@@ -26,9 +26,43 @@ main:has(section.preview) {
 	}
 
 	& li {
-		display: flex;
-		flex-direction: column;
+		display: grid;
+		grid-template-columns: 3fr 1fr;
 		gap: 4px;
 		margin-bottom: 16px;
+
+		& > p {
+			grid-column: span 2;
+		}
+
+		& > input:last-child,
+		& > textarea:last-child {
+			grid-column: span 2;
+		}
+	}
+
+	& input[type='file'] {
+		display: none;
+	}
+
+	& label:has(+ input[type='file']) {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+
+		height: 40px;
+		border-radius: 4px;
+		border: 1px solid $darkPurple;
+		color: $darkPurple;
+		cursor: pointer;
+
+		&:hover {
+			border-color: rgba($color: $darkPurple, $alpha: 0.8);
+		}
+	}
+
+	& textarea {
+		height: 160px;
+		resize: none;
 	}
 }

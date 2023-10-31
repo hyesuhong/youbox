@@ -44,3 +44,19 @@ input[type='submit'] {
 		background: rgba($color: $darkPurple, $alpha: 0.9);
 	}
 }
+
+textarea {
+	background: transparent;
+	border-radius: 4px;
+	border: 1px solid rgba($color: $color, $alpha: 0.5);
+	box-sizing: border-box;
+	color: inherit;
+	padding: 8px;
+	font-family: inherit;
+	font-size: inherit;
+	outline: none;
+
+	&:focus {
+		border-color: $darkPurple;
+	}
+}
