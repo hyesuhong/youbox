@@ -1,3 +1,5 @@
+include ../mixins/avatar
+
 header
 	a.header__logo(href="/") YouBox
 	form.search__form(action="/search")
@@ -10,15 +12,8 @@ header
 		if loggedIn
 			a(href="/videos/upload") Upload
 			div.header__menu-wrapper
-				span.header__avatar.avatar.medium
-					if !loggedInUser.avatarUrl
-						i.avatar__empty
-					else
-						if loggedInUser.avatarUrl !== ''
-							if loggedInUser.avatarUrl.includes('http')
-								img(src=loggedInUser.avatarUrl)
-							else
-								img(src=`/${loggedInUser.avatarUrl}`)
+				div.header__avatar
+					+avatar('medium', loggedInUser.avatarUrl)
 				ul
 					li
 						a(href=`/users/${loggedInUser._id}`) My Profile

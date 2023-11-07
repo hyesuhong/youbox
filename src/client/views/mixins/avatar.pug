@@ -1,0 +1,9 @@
+mixin avatar(size, url)
+	span(class=`avatar ${size}`)
+		if(url && url !== '')
+			if(url.includes('http'))
+				img(src=url)
+			else
+				img(Src=`/${url}`)
+		else 
+			i.avatar__empty

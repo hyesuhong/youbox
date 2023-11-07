@@ -1,16 +1,10 @@
 extends ../layout
+include ../mixins/avatar
 include ../mixins/videoThumb
 
 block content
 	div.profile__data
-		span.avatar.large
-			if user.avatarUrl && user.avatarUrl != ''
-				if user.avatarUrl.includes('http')
-					img(src=user.avatarUrl)
-				else
-					img(src=`/${user.avatarUrl}`)
-			else
-				i.avatar__empty
+		+avatar('large', user.avatarUrl)
 		h3=user.name
 	div.video__grid
 		each data in user.videos

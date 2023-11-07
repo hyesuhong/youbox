@@ -1,13 +1,6 @@
 extends ../layout
 
 block content
-
-	//- if loggedInUser.avatarUrl
-	//- 	if(loggedInUser.avatarUrl.includes('http'))
-	//- 		img(src=`${loggedInUser.avatarUrl}` alt="" width="100" height="100")
-	//- 	else
-	//- 		img(src=`/${loggedInUser.avatarUrl}` alt="" width="100" height="100")
-
 	form.edit-profile__form(method="POST" enctype="multipart/form-data")
 		label(for="avatar") Avatar
 		input(type="file", name="avatar", id="avatar", accept="image/*")

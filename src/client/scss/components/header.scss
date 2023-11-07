@@ -96,9 +96,11 @@ header {
 .header__menu-wrapper {
 	position: relative;
 
-	& > span {
-		display: block;
+	& .header__avatar {
 		cursor: pointer;
+		& > span {
+			display: block;
+		}
 	}
 
 	& > ul {

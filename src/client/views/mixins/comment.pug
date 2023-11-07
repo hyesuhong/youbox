@@ -1,13 +1,8 @@
+include ./avatar
+
 mixin comment(id,owner,text)
 	li.video__comment(data-id=id)
-		span.avatar.medium
-			if owner.avatarUrl && owner.avatarUrl != ''
-				if owner.avatarUrl.includes('http')
-					img(src=owner.avatarUrl)
-				else
-					img(src=`/${owner.avatarUrl}`)
-			else
-				i.avatar__empty
+		+avatar('medium',owner.avatarUrl)
 		div
 			a(href=`/users/${owner._id}`)=owner.name
 			p=text
