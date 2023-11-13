@@ -31,5 +31,8 @@ youtube clone project
 | **/:id/delete** | Delete video |
 | **/upload**     | Upload video |
 
-<!--            | **/comments**        | Comment on a video          | -->
-<!--            | **/comments/delete** | Delete a comment of a video | -->
+## Todo
+
+- [ ] Modify a comment
+- [ ] Add like function
+- [ ] When clicked a hashtag, search video by tag
