@@ -5,9 +5,11 @@
 	"main": "src/index.js",
 	"scripts": {
 		"start": "node build/index.js",
+		"build": "npm run build:server && npm run build:assets",
 		"build:server": "babel src/server -d build",
+		"build:assets": "webpack --mode=production",
 		"dev:server": "nodemon",
-		"dev:assets": "webpack --config webpack.config.js"
+		"dev:assets": "webpack --mode=development -w"
 	},
 	"author": "",
 	"license": "MIT",

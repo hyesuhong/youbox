@@ -4,8 +4,6 @@ const path = require('path');
 const BASE_JS_PATH = './src/client/js';
 
 module.exports = {
-	mode: 'development',
-	watch: true,
 	entry: {
 		index: `${BASE_JS_PATH}/index.js`,
 		header: `${BASE_JS_PATH}/header.js`,
