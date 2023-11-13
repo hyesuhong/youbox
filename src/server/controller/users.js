@@ -198,7 +198,6 @@ const login = (user, req, res) => {
 
 export const getLogout = (req, res) => {
 	req.session.destroy();
-	req.flash('info', 'See you again!');
 	return res.redirect('/');
 };
 
