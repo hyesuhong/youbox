@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import app from './server';
 
-const PORT = 8080;
+const PORT = 3000;
 
 /* start server console */
 const handleListening = () =>
