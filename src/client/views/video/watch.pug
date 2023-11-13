@@ -27,8 +27,9 @@ block content
 
 	section.videoInfo
 		h4.videoInfo__title=video.title
-		p.videoInfo__meta #{video.meta.views} #{video.meta.views < 2 ? "view" :"views"}
-		p.videoInfo__meta=video.createdAt
+		p.videoInfo__meta.video__mata-views #{video.meta.views} #{video.meta.views < 2 ? "view" :"views"}
+		p.videoInfo__meta.videoInfo__meta-comments #{video.comments.length} #{video.comments.length < 2 ? "comment" : "comments"}
+		p.videoInfo__meta.videoInfo__meta-date=video.createdAt
 
 	section.ownerInfo
 		a(href=`/users/${video.owner._id}`)

@@ -1,5 +1,7 @@
 const videoContainer = document.getElementById('videoContainer');
 const form = document.getElementById('commentForm');
+const commentList = document.querySelector('.video__comments-list');
+const commentTag = document.querySelector('.videoInfo__meta-comments');
 
 const handleSubmit = async (ev) => {
 	ev.preventDefault();
@@ -37,8 +39,6 @@ const handleSubmit = async (ev) => {
 
 const createFakeComment = (resData) => {
 	const { _id, owner, text } = resData.data;
-
-	const commentList = document.querySelector('.video__comments-list');
 
 	const comment = document.createElement('li');
 	comment.className = 'video__comment';
@@ -84,6 +84,8 @@ const createFakeComment = (resData) => {
 	comment.append(deleteBtn);
 
 	commentList.prepend(comment);
+
+	commentTag.innerText = createCommentStr(commentList.children.length);
 };
 
 form.addEventListener('submit', handleSubmit);
@@ -111,6 +113,7 @@ const handleDeleteBtnClick = async (e) => {
 
 		if (res.ok) {
 			parentElement.remove();
+			commentTag.innerText = createCommentStr(commentList.children.length);
 		}
 	} catch (error) {
 		console.error(error);
@@ -120,3 +123,7 @@ const handleDeleteBtnClick = async (e) => {
 deleteBtns.forEach((btn) => {
 	btn.addEventListener('click', handleDeleteBtnClick);
 });
+
+const createCommentStr = (length) => {
+	return `${length} ${length < 2 ? 'comment' : 'comments'}`;
+};

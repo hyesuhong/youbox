@@ -286,6 +286,23 @@ export const deleteVideoComment = async (req, res) => {
 			return res.status(403).redirect('/');
 		}
 
+		const video = await Video.findById(comment.video._id);
+
+		if (!video) {
+			throw new Error('cannot found video');
+		}
+
+		const videoComments = video.comments;
+		const commentIndex = video.comments.findIndex(
+			(cid) => cid.toString() === id
+		);
+
+		video.comments = [
+			...videoComments.slice(0, commentIndex),
+			...videoComments.slice(commentIndex + 1),
+		];
+
+		await video.save();
 		await Comment.findByIdAndDelete(id);
 
 		res.sendStatus(204);
