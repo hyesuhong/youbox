@@ -4,6 +4,8 @@
 	"description": "Youtube clone project to practise nodeJS",
 	"main": "src/index.js",
 	"scripts": {
+		"start": "node build/index.js",
+		"build:server": "babel src/server -d build",
 		"dev:server": "nodemon",
 		"dev:assets": "webpack --config webpack.config.js"
 	},
@@ -22,7 +24,8 @@
 		"pug": "^3.0.2"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.22.8",
+		"@babel/cli": "^7.23.0",
+		"@babel/core": "^7.23.3",
 		"@babel/node": "^7.22.6",
 		"@babel/preset-env": "^7.22.7",
 		"babel-loader": "^9.1.3",
